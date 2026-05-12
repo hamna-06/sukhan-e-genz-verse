@@ -1,34 +1,61 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { toPng } from "html-to-image";
-import { Wand2, Download, Share2, Loader2 } from "lucide-react";
+import { Wand2, Download, Share2, Loader2, Sparkles, ArrowRight } from "lucide-react";
 import { loadRefinements, refineText } from "@/lib/refine";
+import { toast } from "sonner";
 
 export function TextRefiner() {
-  const [input, setInput] = useState("Aaj meri khushi ka koi hisaab nahi, dil mein pyar aur aankhon mein khwab hain.");
+  const [input, setInput] = useState(
+    "Aaj meri khushi ka koi hisaab nahi, dil mein pyar aur aankhon mein khwab hain.",
+  );
   const [refined, setRefined] = useState("");
+  const [mode, setMode] = useState<"dict" | "ai">("ai");
   const [dict, setDict] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { loadRefinements().then(setDict); }, []);
+  useEffect(() => {
+    loadRefinements().then(setDict).catch(() => {});
+  }, []);
 
-  const handleRefine = () => {
+  const handleRefine = async () => {
+    if (!input.trim()) return;
     setBusy(true);
-    setTimeout(() => {
-      setRefined(refineText(input, dict));
+    setRefined("");
+    try {
+      if (mode === "dict") {
+        await new Promise((r) => setTimeout(r, 250));
+        setRefined(refineText(input, dict));
+      } else {
+        const res = await fetch("/api/translate", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ text: input }),
+        });
+        const data = (await res.json()) as { translation?: string; error?: string };
+        if (!res.ok || !data.translation) {
+          throw new Error(data.error || "Translation failed");
+        }
+        setRefined(data.translation);
+      }
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not refine");
+    } finally {
       setBusy(false);
-    }, 300);
+    }
   };
 
   const download = async () => {
     if (!cardRef.current) return;
     const url = await toPng(cardRef.current, { pixelRatio: 2, cacheBust: true });
     const a = document.createElement("a");
-    a.href = url; a.download = "sukhan-card.png"; a.click();
+    a.href = url;
+    a.download = "sukhan-card.png";
+    a.click();
   };
 
-  const share = async () => {
+  const share = () => {
     const text = refined || input;
     const url = `https://wa.me/?text=${encodeURIComponent(text + "\n\n— via Sukhan-e-Z")}`;
     window.open(url, "_blank");
@@ -38,11 +65,39 @@ export function TextRefiner() {
     <div className="bento p-6 md:p-8 relative grain overflow-hidden">
       <div className="flex items-start justify-between mb-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">Module 01</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">
+            Module 01
+          </p>
           <h2 className="display text-2xl md:text-3xl mt-1">Text-to-Nisab</h2>
-          <p className="text-sm text-muted-foreground mt-1">Refine your everyday Urdu into Khalis Urdu.</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            Turn any input into elegant Khalis Urdu.
+          </p>
         </div>
         <Wand2 className="w-5 h-5 text-[color:var(--emerald-glow)]" />
+      </div>
+
+      {/* Mode toggle */}
+      <div className="inline-flex p-1 mb-3 rounded-xl bg-[color:var(--input)] text-xs">
+        <button
+          onClick={() => setMode("ai")}
+          className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition ${
+            mode === "ai"
+              ? "bg-[color:var(--cream)] text-[color:var(--background)]"
+              : "text-muted-foreground"
+          }`}
+        >
+          <Sparkles className="w-3.5 h-3.5" /> AI Translate
+        </button>
+        <button
+          onClick={() => setMode("dict")}
+          className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition ${
+            mode === "dict"
+              ? "bg-[color:var(--cream)] text-[color:var(--background)]"
+              : "text-muted-foreground"
+          }`}
+        >
+          <Wand2 className="w-3.5 h-3.5" /> Word Refine
+        </button>
       </div>
 
       <textarea
@@ -50,45 +105,104 @@ export function TextRefiner() {
         onChange={(e) => setInput(e.target.value)}
         rows={3}
         className="w-full bg-[color:var(--input)] rounded-xl p-4 text-sm outline-none focus:ring-2 focus:ring-[color:var(--ring)] resize-none"
-        placeholder="Type your message in Roman Urdu or English…"
+        placeholder="Type anything — Roman Urdu, English, or mixed…"
       />
 
       <div className="flex gap-2 mt-3">
         <button
           onClick={handleRefine}
-          className="px-4 py-2 rounded-xl bg-[color:var(--cream)] text-[color:var(--background)] text-sm font-medium flex items-center gap-2 hover:opacity-90 transition"
+          disabled={busy || !input.trim()}
+          className="px-4 py-2 rounded-xl bg-[color:var(--cream)] text-[color:var(--background)] text-sm font-medium flex items-center gap-2 hover:opacity-90 transition disabled:opacity-50"
         >
-          {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
-          Refine to Khalis
+          {busy ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : mode === "ai" ? (
+            <Sparkles className="w-4 h-4" />
+          ) : (
+            <Wand2 className="w-4 h-4" />
+          )}
+          {mode === "ai" ? "Translate to Khalis Urdu" : "Refine to Khalis"}
         </button>
       </div>
 
-      {refined && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-6"
-        >
-          <div ref={cardRef} className="bento-cream p-8 md:p-10 relative overflow-hidden">
-            <div className="absolute top-3 right-4 text-[10px] uppercase tracking-widest opacity-60">Sukhan-e-Z</div>
-            <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full" style={{ background: "var(--emerald-deep)", opacity: 0.1 }} />
-            <p className="urdu text-2xl md:text-3xl text-center leading-loose">{refined}</p>
-            <div className="mt-6 flex justify-center">
-              <div className="h-px w-12 bg-current opacity-30" />
+      <AnimatePresence>
+        {(refined || busy) && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="mt-6 space-y-4"
+          >
+            {/* Before / After preview */}
+            <div className="grid md:grid-cols-2 gap-3">
+              <div className="rounded-xl p-4 bg-[color:var(--input)]/60 border border-[color:var(--border)]">
+                <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
+                  Before
+                </p>
+                <p className="text-sm leading-relaxed">{input}</p>
+              </div>
+              <div className="rounded-xl p-4 bg-[color:var(--emerald-deep)]/30 border border-[color:var(--emerald-glow)]/30 relative">
+                <div className="absolute -left-3 top-1/2 -translate-y-1/2 hidden md:flex w-6 h-6 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] items-center justify-center">
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
+                <p className="text-[10px] uppercase tracking-[0.25em] text-[color:var(--emerald-glow)] mb-2">
+                  After · Khalis
+                </p>
+                {busy ? (
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Loader2 className="w-4 h-4 animate-spin" /> Translating…
+                  </div>
+                ) : (
+                  <p className="urdu text-xl md:text-2xl leading-loose text-right" dir="rtl">
+                    {refined}
+                  </p>
+                )}
+              </div>
             </div>
-            <p className="text-center text-[10px] uppercase tracking-[0.3em] mt-3 opacity-50">Khalis Urdu</p>
-          </div>
 
-          <div className="flex gap-2 mt-4">
-            <button onClick={download} className="px-4 py-2 rounded-xl bg-[color:var(--secondary)] text-sm flex items-center gap-2 hover:bg-[color:var(--emerald-deep)] transition">
-              <Download className="w-4 h-4" /> Download
-            </button>
-            <button onClick={share} className="px-4 py-2 rounded-xl bg-[color:var(--secondary)] text-sm flex items-center gap-2 hover:bg-[color:var(--emerald-deep)] transition">
-              <Share2 className="w-4 h-4" /> Share
-            </button>
-          </div>
-        </motion.div>
-      )}
+            {refined && !busy && (
+              <>
+                <div ref={cardRef} className="bento-cream p-8 md:p-10 relative overflow-hidden">
+                  <div className="absolute top-3 right-4 text-[10px] uppercase tracking-widest opacity-60">
+                    Sukhan-e-Z
+                  </div>
+                  <div
+                    className="absolute -top-10 -right-10 w-40 h-40 rounded-full"
+                    style={{ background: "var(--emerald-deep)", opacity: 0.1 }}
+                  />
+                  <p
+                    className="urdu text-2xl md:text-3xl text-center leading-loose"
+                    dir="rtl"
+                  >
+                    {refined}
+                  </p>
+                  <div className="mt-6 flex justify-center">
+                    <div className="h-px w-12 bg-current opacity-30" />
+                  </div>
+                  <p className="text-center text-[10px] uppercase tracking-[0.3em] mt-3 opacity-50">
+                    Khalis Urdu
+                  </p>
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={download}
+                    className="px-4 py-2 rounded-xl bg-[color:var(--secondary)] text-sm flex items-center gap-2 hover:bg-[color:var(--emerald-deep)] transition"
+                  >
+                    <Download className="w-4 h-4" /> Download
+                  </button>
+                  <button
+                    onClick={share}
+                    className="px-4 py-2 rounded-xl bg-[color:var(--secondary)] text-sm flex items-center gap-2 hover:bg-[color:var(--emerald-deep)] transition"
+                  >
+                    <Share2 className="w-4 h-4" /> Share
+                  </button>
+                </div>
+              </>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
