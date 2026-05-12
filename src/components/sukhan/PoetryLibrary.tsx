@@ -203,8 +203,8 @@ export function PoetryLibrary() {
                           </p>
                         </div>
                         <div className="flex gap-1 opacity-60 group-hover:opacity-100 transition">
-                          <button onClick={() => speak(s.urdu)} className="p-1.5 rounded-md hover:bg-[color:var(--background)]/40">
-                            <Volume2 className="w-3 h-3" />
+                          <button onClick={() => speak(s.urdu)} aria-label="Pronounce" className="p-1.5 rounded-md hover:bg-[color:var(--background)]/40">
+                            {speaking === s.urdu ? <Square className="w-3 h-3 fill-current text-[color:var(--emerald-glow)]" /> : <Volume2 className="w-3 h-3" />}
                           </button>
                           <button onClick={() => copy(s.urdu)} className="p-1.5 rounded-md hover:bg-[color:var(--background)]/40">
                             {copied === s.urdu ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
