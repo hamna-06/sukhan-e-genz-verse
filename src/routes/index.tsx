@@ -1,26 +1,69 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import { Header } from "@/components/sukhan/Header";
+import { TextRefiner } from "@/components/sukhan/TextRefiner";
+import { PoetryLibrary } from "@/components/sukhan/PoetryLibrary";
+import { MoodGrid } from "@/components/sukhan/MoodGrid";
+import { SmartKeyboard } from "@/components/sukhan/SmartKeyboard";
+import { Gamification } from "@/components/sukhan/Gamification";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Sukhan-e-Z — Urdu, but make it Gen Z" },
+      { name: "description", content: "An aesthetic Urdu literature companion: refine your text, decode poetry, find verses by mood, and earn Sukhan points." },
+      { property: "og:title", content: "Sukhan-e-Z" },
+      { property: "og:description", content: "Premium Urdu lifestyle app for Gen Z." },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen pb-20">
+      <Header />
+
+      <section className="px-6 md:px-12 pt-6 pb-10">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            className="bento p-8 md:p-14 relative overflow-hidden grain"
+          >
+            <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full" style={{ background: "var(--emerald-glow)", opacity: 0.18, filter: "blur(60px)" }} />
+            <p className="text-xs uppercase tracking-[0.3em] text-[color:var(--emerald-glow)]">Sukhan-e-Z · est. 2026</p>
+            <h1 className="display text-5xl md:text-7xl mt-4 leading-[0.95]">
+              Urdu, but <em className="italic">make it</em><br />Gen Z.
+            </h1>
+            <p className="urdu text-2xl md:text-3xl mt-6 max-w-2xl text-[color:var(--cream)]/90">
+              زبانِ شیریں کا ایک نیا انداز
+            </p>
+            <p className="text-sm md:text-base text-muted-foreground mt-4 max-w-xl">
+              Refine your text, decode the classics, find verses for your vibe, and turn poetry into a daily ritual.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="px-6 md:px-12">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div className="lg:col-span-2 grid gap-5">
+            <TextRefiner />
+            <div className="grid md:grid-cols-2 gap-5">
+              <PoetryLibrary />
+              <MoodGrid />
+            </div>
+            <SmartKeyboard />
+          </div>
+          <aside>
+            <Gamification />
+          </aside>
+        </div>
+      </section>
+
+      <footer className="text-center text-xs text-muted-foreground mt-16 px-6">
+        Built with محبت · Sukhan-e-Z
+      </footer>
     </div>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
