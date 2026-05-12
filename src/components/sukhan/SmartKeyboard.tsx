@@ -1,70 +1,229 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Smartphone } from "lucide-react";
+import { Send, Smartphone, Sparkles, Loader2, Wand2 } from "lucide-react";
 import { loadRefinements, suggestWord } from "@/lib/refine";
+import { toast } from "sonner";
 
-type Msg = { from: "me" | "them"; text: string };
+type Msg = { from: "me" | "them"; text: string; original?: string };
 
 export function SmartKeyboard() {
   const [dict, setDict] = useState<Record<string, string>>({});
   const [text, setText] = useState("");
+  const [aiMode, setAiMode] = useState(true);
+  const [aiSuggestion, setAiSuggestion] = useState("");
+  const [busy, setBusy] = useState(false);
+  const debounce = useRef<number | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
+
   const [msgs, setMsgs] = useState<Msg[]>([
-    { from: "them", text: "Aaj kya plan hai?" },
+    { from: "them", text: "آج کیا پلان ہے؟" },
   ]);
 
-  useEffect(() => { loadRefinements().then(setDict); }, []);
+  useEffect(() => {
+    loadRefinements().then(setDict);
+  }, []);
+
+  // Real-time AI suggestion as user types
+  useEffect(() => {
+    if (!aiMode) {
+      setAiSuggestion("");
+      return;
+    }
+    if (!text.trim()) {
+      setAiSuggestion("");
+      return;
+    }
+    if (debounce.current) window.clearTimeout(debounce.current);
+    debounce.current = window.setTimeout(async () => {
+      abortRef.current?.abort();
+      const ctrl = new AbortController();
+      abortRef.current = ctrl;
+      setBusy(true);
+      try {
+        const res = await fetch("/api/translate", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ text }),
+          signal: ctrl.signal,
+        });
+        const data = (await res.json()) as { translation?: string };
+        if (data.translation) setAiSuggestion(data.translation);
+      } catch (e) {
+        if ((e as Error).name !== "AbortError") {
+          // silent
+        }
+      } finally {
+        setBusy(false);
+      }
+    }, 550);
+    return () => {
+      if (debounce.current) window.clearTimeout(debounce.current);
+    };
+  }, [text, aiMode]);
 
   const lastWord = text.split(/\s+/).pop() ?? "";
-  const suggestion = suggestWord(lastWord, dict);
+  const dictSuggestion = !aiMode ? suggestWord(lastWord, dict) : null;
 
-  const apply = () => {
-    if (!suggestion) return;
+  const applyDict = () => {
+    if (!dictSuggestion) return;
     const parts = text.split(/\s+/);
-    parts[parts.length - 1] = suggestion;
+    parts[parts.length - 1] = dictSuggestion;
     setText(parts.join(" ") + " ");
   };
 
-  const send = () => {
-    if (!text.trim()) return;
-    setMsgs((m) => [...m, { from: "me", text }]);
+  const sendKhalis = (override?: string) => {
+    const original = text;
+    const out = override ?? aiSuggestion ?? text;
+    if (!out.trim()) return;
+    setMsgs((m) => [...m, { from: "me", text: out, original }]);
     setText("");
-    setTimeout(() => {
-      setMsgs((m) => [...m, { from: "them", text: "Wah! Khalis Urdu mein baat ho rahi hai 🌿" }]);
-    }, 600);
+    setAiSuggestion("");
+
+    setTimeout(async () => {
+      // AI partner replies in Khalis Urdu
+      try {
+        const res = await fetch("/api/translate", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            text: `Reply briefly in elegant Khalis Urdu to: "${out}"`,
+          }),
+        });
+        const data = (await res.json()) as { translation?: string };
+        setMsgs((m) => [
+          ...m,
+          {
+            from: "them",
+            text: data.translation || "واہ! خالص اردو میں بات ہو رہی ہے 🌿",
+          },
+        ]);
+      } catch {
+        setMsgs((m) => [
+          ...m,
+          { from: "them", text: "واہ! خالص اردو میں بات ہو رہی ہے 🌿" },
+        ]);
+      }
+    }, 500);
+  };
+
+  const handleSend = () => {
+    if (aiMode && aiSuggestion) sendKhalis();
+    else if (text.trim()) sendKhalis(text);
+    else toast.error("Type something first");
   };
 
   return (
     <div className="bento p-6 md:p-8">
       <div className="flex items-start justify-between mb-5">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">Module 04</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">
+            Module 04
+          </p>
           <h2 className="display text-2xl md:text-3xl mt-1">Smart Keyboard</h2>
-          <p className="text-sm text-muted-foreground mt-1">Khalis suggestions, live.</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            AI converts every line to Khalis Urdu in real time.
+          </p>
         </div>
         <Smartphone className="w-5 h-5 text-[color:var(--emerald-glow)]" />
+      </div>
+
+      {/* Mode toggle */}
+      <div className="inline-flex p-1 mb-4 rounded-xl bg-[color:var(--input)] text-xs">
+        <button
+          onClick={() => setAiMode(true)}
+          className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition ${
+            aiMode
+              ? "bg-[color:var(--cream)] text-[color:var(--background)]"
+              : "text-muted-foreground"
+          }`}
+        >
+          <Sparkles className="w-3.5 h-3.5" /> AI Live
+        </button>
+        <button
+          onClick={() => setAiMode(false)}
+          className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition ${
+            !aiMode
+              ? "bg-[color:var(--cream)] text-[color:var(--background)]"
+              : "text-muted-foreground"
+          }`}
+        >
+          <Wand2 className="w-3.5 h-3.5" /> Word
+        </button>
       </div>
 
       <div className="rounded-3xl bg-[#0b141a] p-3 max-w-sm mx-auto border border-[color:var(--border)] shadow-2xl">
         <div className="rounded-2xl bg-[#0b141a] h-72 overflow-y-auto p-3 space-y-2 flex flex-col">
           {msgs.map((m, i) => (
-            <div key={i} className={`flex ${m.from === "me" ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm ${
-                m.from === "me" ? "bg-[#005c4b] text-white rounded-br-sm" : "bg-[#202c33] text-white rounded-bl-sm"
-              }`}>
-                <span className="urdu text-base">{m.text}</span>
+            <div
+              key={i}
+              className={`flex ${m.from === "me" ? "justify-end" : "justify-start"}`}
+            >
+              <div
+                className={`max-w-[80%] px-3 py-2 rounded-2xl ${
+                  m.from === "me"
+                    ? "bg-[#005c4b] text-white rounded-br-sm"
+                    : "bg-[#202c33] text-white rounded-bl-sm"
+                }`}
+              >
+                <span className="urdu text-base block text-right" dir="rtl">
+                  {m.text}
+                </span>
+                {m.original && (
+                  <span className="block text-[10px] opacity-50 mt-1">
+                    you typed: {m.original}
+                  </span>
+                )}
               </div>
             </div>
           ))}
         </div>
 
+        {/* AI live preview bar */}
         <AnimatePresence>
-          {suggestion && (
+          {aiMode && (aiSuggestion || busy) && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="mt-2 px-3 py-2 rounded-xl bg-[color:var(--emerald-deep)]/40 border border-[color:var(--emerald-glow)]/30"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-[9px] uppercase tracking-[0.25em] text-[color:var(--emerald-glow)] flex items-center gap-1">
+                  {busy ? (
+                    <Loader2 className="w-3 h-3 animate-spin" />
+                  ) : (
+                    <Sparkles className="w-3 h-3" />
+                  )}
+                  AI · Khalis preview
+                </p>
+                {aiSuggestion && !busy && (
+                  <button
+                    onClick={() => sendKhalis()}
+                    className="text-[10px] px-2 py-0.5 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] font-medium"
+                  >
+                    Send ↑
+                  </button>
+                )}
+              </div>
+              {aiSuggestion && (
+                <p
+                  className="urdu text-base mt-1 text-right text-white"
+                  dir="rtl"
+                >
+                  {aiSuggestion}
+                </p>
+              )}
+            </motion.div>
+          )}
+          {!aiMode && dictSuggestion && (
             <motion.button
-              onClick={apply}
-              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+              onClick={applyDict}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
               className="mt-2 mx-auto block px-4 py-1.5 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] text-xs font-medium"
             >
-              Try: <span className="urdu text-sm">{suggestion}</span> ↑
+              Try: <span className="urdu text-sm">{dictSuggestion}</span> ↑
             </motion.button>
           )}
         </AnimatePresence>
@@ -73,15 +232,26 @@ export function SmartKeyboard() {
           <input
             value={text}
             onChange={(e) => setText(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && send()}
-            placeholder="Type message…"
+            onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            placeholder={
+              aiMode ? "Type in any language…" : "Type Roman Urdu…"
+            }
             className="flex-1 bg-transparent outline-none text-white text-sm px-3"
           />
-          <button onClick={send} className="w-9 h-9 rounded-full bg-[#00a884] flex items-center justify-center">
+          <button
+            onClick={handleSend}
+            className="w-9 h-9 rounded-full bg-[#00a884] flex items-center justify-center"
+            aria-label="Send"
+          >
             <Send className="w-4 h-4 text-white" />
           </button>
         </div>
       </div>
+
+      <p className="text-[11px] text-muted-foreground text-center mt-4">
+        Want this everywhere? Use the floating ✒︎ button — type, copy, paste in
+        WhatsApp or Instagram.
+      </p>
     </div>
   );
 }
