@@ -10,6 +10,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
+import { FloatingTranslator } from "@/components/sukhan/FloatingTranslator";
 
 function NotFoundComponent() {
   return (
