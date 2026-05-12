@@ -34,6 +34,17 @@ export function PoetryLibrary() {
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const [speaking, setSpeaking] = useState<string | null>(null);
+  const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
+
+  // Voices load asynchronously in most browsers.
+  useEffect(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const load = () => { voiceRef.current = pickUrduVoice(); };
+    load();
+    window.speechSynthesis.onvoiceschanged = load;
+    return () => { window.speechSynthesis.onvoiceschanged = null; };
+  }, []);
 
   const search = async (term?: string) => {
     const word = (term ?? query).trim();
@@ -64,8 +75,20 @@ export function PoetryLibrary() {
   };
 
   const speak = (text: string) => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      toast.error("Audio not supported in this browser");
+      return;
+    }
+    window.speechSynthesis.cancel();
+    if (speaking === text) { setSpeaking(null); return; }
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "ur-PK";
+    const v = voiceRef.current ?? pickUrduVoice();
+    if (v) { u.voice = v; u.lang = v.lang; } else { u.lang = "ur-PK"; }
+    u.rate = 0.85;
+    u.pitch = 1;
+    u.onend = () => setSpeaking((s) => (s === text ? null : s));
+    u.onerror = () => setSpeaking((s) => (s === text ? null : s));
+    setSpeaking(text);
     window.speechSynthesis.speak(u);
   };
 
