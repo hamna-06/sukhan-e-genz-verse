@@ -1,7 +1,20 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Search, Loader2, Sparkles, Volume2, Copy, Check } from "lucide-react";
+import { BookOpen, Search, Loader2, Sparkles, Volume2, Copy, Check, Square } from "lucide-react";
 import { toast } from "sonner";
+
+// Pick the best available voice for Urdu (fallback to Hindi → Arabic → default).
+function pickUrduVoice(): SpeechSynthesisVoice | null {
+  if (typeof window === "undefined") return null;
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+  const order = ["ur-PK", "ur-IN", "ur", "hi-IN", "hi", "ar-SA", "ar"];
+  for (const code of order) {
+    const v = voices.find((x) => x.lang?.toLowerCase().startsWith(code.toLowerCase()));
+    if (v) return v;
+  }
+  return voices[0] ?? null;
+}
 
 type Synonym = { urdu: string; roman: string; nuance: string };
 type Phrase = { urdu: string; english: string };
