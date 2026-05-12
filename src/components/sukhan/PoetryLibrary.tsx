@@ -36,14 +36,15 @@ export function PoetryLibrary() {
   const [copied, setCopied] = useState<string | null>(null);
   const [speaking, setSpeaking] = useState<string | null>(null);
   const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   // Voices load asynchronously in most browsers.
   useEffect(() => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
     const load = () => { voiceRef.current = pickUrduVoice(); };
     load();
-    window.speechSynthesis.onvoiceschanged = load;
-    return () => { window.speechSynthesis.onvoiceschanged = null; };
+    window.speechSynthesis.addEventListener?.("voiceschanged", load);
+    return () => { window.speechSynthesis.removeEventListener?.("voiceschanged", load); };
   }, []);
 
   const search = async (term?: string) => {
@@ -85,36 +86,41 @@ export function PoetryLibrary() {
     // Toggle off if currently speaking this same text
     if (speaking === text) {
       synth.cancel();
+      utteranceRef.current = null;
       setSpeaking(null);
       return;
     }
 
-    const start = () => {
-      const u = new SpeechSynthesisUtterance(text);
-      const v = voiceRef.current ?? pickUrduVoice();
-      if (v) {
-        u.voice = v;
-        u.lang = v.lang;
-      } else {
-        u.lang = "ur-PK";
-        // Warn user once if no voice at all (very rare)
-        if (!synth.getVoices().length) {
-          toast.error("No speech voices available in this browser");
-        }
+    // Create the utterance immediately inside the button click handler so
+    // browsers keep the action tied to the user's gesture.
+    const u = new SpeechSynthesisUtterance(text);
+    const v = voiceRef.current ?? pickUrduVoice();
+    if (v) {
+      u.voice = v;
+      u.lang = v.lang;
+    } else {
+      u.lang = "ur-PK";
+    }
+    u.rate = 0.82;
+    u.pitch = 1;
+    u.volume = 1;
+    u.onend = () => {
+      utteranceRef.current = null;
+      setSpeaking((s) => (s === text ? null : s));
+    };
+    u.onerror = (e) => {
+      utteranceRef.current = null;
+      if (e.error && e.error !== "canceled" && e.error !== "interrupted") {
+        console.warn("[speak] error:", e.error);
+        toast.error("Could not play pronunciation. Please check browser audio permissions.");
       }
-      u.rate = 0.85;
-      u.pitch = 1;
-      u.volume = 1;
-      u.onend = () => setSpeaking((s) => (s === text ? null : s));
-      u.onerror = (e) => {
-        // 'canceled'/'interrupted' are normal when toggling — ignore them
-        if (e.error && e.error !== "canceled" && e.error !== "interrupted") {
-          console.warn("[speak] error:", e.error);
-          toast.error(`Audio error: ${e.error}`);
-        }
-        setSpeaking((s) => (s === text ? null : s));
-      };
+      setSpeaking((s) => (s === text ? null : s));
+    };
+
+    const start = () => {
+      utteranceRef.current = u;
       setSpeaking(text);
+      synth.resume();
       synth.speak(u);
     };
 
