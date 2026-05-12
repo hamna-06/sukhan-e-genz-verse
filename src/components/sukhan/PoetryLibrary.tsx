@@ -79,17 +79,53 @@ export function PoetryLibrary() {
       toast.error("Audio not supported in this browser");
       return;
     }
-    window.speechSynthesis.cancel();
-    if (speaking === text) { setSpeaking(null); return; }
-    const u = new SpeechSynthesisUtterance(text);
-    const v = voiceRef.current ?? pickUrduVoice();
-    if (v) { u.voice = v; u.lang = v.lang; } else { u.lang = "ur-PK"; }
-    u.rate = 0.85;
-    u.pitch = 1;
-    u.onend = () => setSpeaking((s) => (s === text ? null : s));
-    u.onerror = () => setSpeaking((s) => (s === text ? null : s));
-    setSpeaking(text);
-    window.speechSynthesis.speak(u);
+    const synth = window.speechSynthesis;
+    const wasSpeaking = synth.speaking || synth.pending;
+
+    // Toggle off if currently speaking this same text
+    if (speaking === text) {
+      synth.cancel();
+      setSpeaking(null);
+      return;
+    }
+
+    const start = () => {
+      const u = new SpeechSynthesisUtterance(text);
+      const v = voiceRef.current ?? pickUrduVoice();
+      if (v) {
+        u.voice = v;
+        u.lang = v.lang;
+      } else {
+        u.lang = "ur-PK";
+        // Warn user once if no voice at all (very rare)
+        if (!synth.getVoices().length) {
+          toast.error("No speech voices available in this browser");
+        }
+      }
+      u.rate = 0.85;
+      u.pitch = 1;
+      u.volume = 1;
+      u.onend = () => setSpeaking((s) => (s === text ? null : s));
+      u.onerror = (e) => {
+        // 'canceled'/'interrupted' are normal when toggling — ignore them
+        if (e.error && e.error !== "canceled" && e.error !== "interrupted") {
+          console.warn("[speak] error:", e.error);
+          toast.error(`Audio error: ${e.error}`);
+        }
+        setSpeaking((s) => (s === text ? null : s));
+      };
+      setSpeaking(text);
+      synth.speak(u);
+    };
+
+    if (wasSpeaking) {
+      // Chrome bug: cancel() then immediate speak() drops the utterance.
+      // Cancel, then start on next tick.
+      synth.cancel();
+      setTimeout(start, 120);
+    } else {
+      start();
+    }
   };
 
   return (
