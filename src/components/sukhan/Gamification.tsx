@@ -11,10 +11,11 @@ const BADGES = [
 ];
 
 export function Gamification() {
-  const [points, setPoints] = useState<number>(() => {
-    if (typeof window === "undefined") return 0;
-    return Number(localStorage.getItem("sukhan_points") ?? 30);
-  });
+  const [points, setPoints] = useState<number>(0);
+  useEffect(() => {
+    const saved = Number(localStorage.getItem("sukhan_points") ?? 30);
+    setPoints(saved);
+  }, []);
   const [quote, setQuote] = useState<{ quote: string; poet: string } | null>(null);
   const [wow, setWow] = useState<{ word: string; meaning: string; example: string | null } | null>(null);
 
