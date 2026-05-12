@@ -54,11 +54,14 @@ export function MoodGrid() {
           <motion.div
             key={active}
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-            className="mt-5 space-y-3"
+            className="mt-5 space-y-3 max-h-[420px] overflow-y-auto pr-1"
           >
             {loading && <p className="text-xs text-muted-foreground">Tuning in…</p>}
             {!loading && verses.length === 0 && (
               <p className="text-xs text-muted-foreground">No verses yet for this mood.</p>
+            )}
+            {!loading && verses.length > 0 && (
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{verses.length} verses</p>
             )}
             {verses.map((v) => (
               <div key={v.id} className="rounded-xl p-4 bg-[color:var(--secondary)]/40 border border-[color:var(--border)]">
