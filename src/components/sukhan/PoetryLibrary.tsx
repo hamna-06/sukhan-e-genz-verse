@@ -169,8 +169,8 @@ export function PoetryLibrary() {
                       )}
                     </div>
                     <div className="flex gap-1.5 shrink-0">
-                      <button onClick={() => speak(result.khalis!)} className="p-2 rounded-lg bg-[color:var(--background)]/40 hover:bg-[color:var(--background)]/60">
-                        <Volume2 className="w-3.5 h-3.5" />
+                      <button onClick={() => speak(result.khalis!)} aria-label="Pronounce" className="p-2 rounded-lg bg-[color:var(--background)]/40 hover:bg-[color:var(--background)]/60">
+                        {speaking === result.khalis ? <Square className="w-3.5 h-3.5 fill-current text-[color:var(--emerald-glow)]" /> : <Volume2 className="w-3.5 h-3.5" />}
                       </button>
                       <button onClick={() => copy(result.khalis!)} className="p-2 rounded-lg bg-[color:var(--background)]/40 hover:bg-[color:var(--background)]/60">
                         {copied === result.khalis ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
