@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiTranslateRouteImport } from './routes/api/translate'
+import { Route as ApiSynonymsRouteImport } from './routes/api/synonyms'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const ApiTranslateRoute = ApiTranslateRouteImport.update({
   path: '/api/translate',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSynonymsRoute = ApiSynonymsRouteImport.update({
+  id: '/api/synonyms',
+  path: '/api/synonyms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/translate'
+  fullPaths: '/' | '/api/synonyms' | '/api/translate'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/translate'
-  id: '__root__' | '/' | '/api/translate'
+  to: '/' | '/api/synonyms' | '/api/translate'
+  id: '__root__' | '/' | '/api/synonyms' | '/api/translate'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiSynonymsRoute: typeof ApiSynonymsRoute
   ApiTranslateRoute: typeof ApiTranslateRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTranslateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/synonyms': {
+      id: '/api/synonyms'
+      path: '/api/synonyms'
+      fullPath: '/api/synonyms'
+      preLoaderRoute: typeof ApiSynonymsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiSynonymsRoute: ApiSynonymsRoute,
   ApiTranslateRoute: ApiTranslateRoute,
 }
 export const routeTree = rootRouteImport
