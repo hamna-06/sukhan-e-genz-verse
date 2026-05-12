@@ -14,7 +14,132 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      daily_quotes: {
+        Row: {
+          active_date: string | null
+          id: string
+          poet: string
+          quote: string
+        }
+        Insert: {
+          active_date?: string | null
+          id?: string
+          poet: string
+          quote: string
+        }
+        Update: {
+          active_date?: string | null
+          id?: string
+          poet?: string
+          quote?: string
+        }
+        Relationships: []
+      }
+      poems: {
+        Row: {
+          content: string
+          created_at: string
+          difficult_words: Json
+          id: string
+          is_two_liner: boolean
+          poet: string
+          title: string
+          vibe: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          difficult_words?: Json
+          id?: string
+          is_two_liner?: boolean
+          poet: string
+          title: string
+          vibe: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          difficult_words?: Json
+          id?: string
+          is_two_liner?: boolean
+          poet?: string
+          title?: string
+          vibe?: string
+        }
+        Relationships: []
+      }
+      refinements: {
+        Row: {
+          common_word: string
+          id: string
+          khalis_word: string
+          meaning: string | null
+        }
+        Insert: {
+          common_word: string
+          id?: string
+          khalis_word: string
+          meaning?: string | null
+        }
+        Update: {
+          common_word?: string
+          id?: string
+          khalis_word?: string
+          meaning?: string | null
+        }
+        Relationships: []
+      }
+      urdu_words: {
+        Row: {
+          created_at: string
+          etymology: string | null
+          id: string
+          meaning: string
+          pronunciation_url: string | null
+          word: string
+        }
+        Insert: {
+          created_at?: string
+          etymology?: string | null
+          id?: string
+          meaning: string
+          pronunciation_url?: string | null
+          word: string
+        }
+        Update: {
+          created_at?: string
+          etymology?: string | null
+          id?: string
+          meaning?: string
+          pronunciation_url?: string | null
+          word?: string
+        }
+        Relationships: []
+      }
+      word_of_week: {
+        Row: {
+          example: string | null
+          id: string
+          meaning: string
+          week_start: string | null
+          word: string
+        }
+        Insert: {
+          example?: string | null
+          id?: string
+          meaning: string
+          week_start?: string | null
+          word: string
+        }
+        Update: {
+          example?: string | null
+          id?: string
+          meaning?: string
+          week_start?: string | null
+          word?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
