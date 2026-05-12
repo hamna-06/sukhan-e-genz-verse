@@ -1,7 +1,20 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Search, Loader2, Sparkles, Volume2, Copy, Check } from "lucide-react";
+import { BookOpen, Search, Loader2, Sparkles, Volume2, Copy, Check, Square } from "lucide-react";
 import { toast } from "sonner";
+
+// Pick the best available voice for Urdu (fallback to Hindi → Arabic → default).
+function pickUrduVoice(): SpeechSynthesisVoice | null {
+  if (typeof window === "undefined") return null;
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+  const order = ["ur-PK", "ur-IN", "ur", "hi-IN", "hi", "ar-SA", "ar"];
+  for (const code of order) {
+    const v = voices.find((x) => x.lang?.toLowerCase().startsWith(code.toLowerCase()));
+    if (v) return v;
+  }
+  return voices[0] ?? null;
+}
 
 type Synonym = { urdu: string; roman: string; nuance: string };
 type Phrase = { urdu: string; english: string };
@@ -21,6 +34,17 @@ export function PoetryLibrary() {
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const [speaking, setSpeaking] = useState<string | null>(null);
+  const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
+
+  // Voices load asynchronously in most browsers.
+  useEffect(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const load = () => { voiceRef.current = pickUrduVoice(); };
+    load();
+    window.speechSynthesis.onvoiceschanged = load;
+    return () => { window.speechSynthesis.onvoiceschanged = null; };
+  }, []);
 
   const search = async (term?: string) => {
     const word = (term ?? query).trim();
@@ -51,8 +75,20 @@ export function PoetryLibrary() {
   };
 
   const speak = (text: string) => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      toast.error("Audio not supported in this browser");
+      return;
+    }
+    window.speechSynthesis.cancel();
+    if (speaking === text) { setSpeaking(null); return; }
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "ur-PK";
+    const v = voiceRef.current ?? pickUrduVoice();
+    if (v) { u.voice = v; u.lang = v.lang; } else { u.lang = "ur-PK"; }
+    u.rate = 0.85;
+    u.pitch = 1;
+    u.onend = () => setSpeaking((s) => (s === text ? null : s));
+    u.onerror = () => setSpeaking((s) => (s === text ? null : s));
+    setSpeaking(text);
     window.speechSynthesis.speak(u);
   };
 
@@ -133,8 +169,8 @@ export function PoetryLibrary() {
                       )}
                     </div>
                     <div className="flex gap-1.5 shrink-0">
-                      <button onClick={() => speak(result.khalis!)} className="p-2 rounded-lg bg-[color:var(--background)]/40 hover:bg-[color:var(--background)]/60">
-                        <Volume2 className="w-3.5 h-3.5" />
+                      <button onClick={() => speak(result.khalis!)} aria-label="Pronounce" className="p-2 rounded-lg bg-[color:var(--background)]/40 hover:bg-[color:var(--background)]/60">
+                        {speaking === result.khalis ? <Square className="w-3.5 h-3.5 fill-current text-[color:var(--emerald-glow)]" /> : <Volume2 className="w-3.5 h-3.5" />}
                       </button>
                       <button onClick={() => copy(result.khalis!)} className="p-2 rounded-lg bg-[color:var(--background)]/40 hover:bg-[color:var(--background)]/60">
                         {copied === result.khalis ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
@@ -167,8 +203,8 @@ export function PoetryLibrary() {
                           </p>
                         </div>
                         <div className="flex gap-1 opacity-60 group-hover:opacity-100 transition">
-                          <button onClick={() => speak(s.urdu)} className="p-1.5 rounded-md hover:bg-[color:var(--background)]/40">
-                            <Volume2 className="w-3 h-3" />
+                          <button onClick={() => speak(s.urdu)} aria-label="Pronounce" className="p-1.5 rounded-md hover:bg-[color:var(--background)]/40">
+                            {speaking === s.urdu ? <Square className="w-3 h-3 fill-current text-[color:var(--emerald-glow)]" /> : <Volume2 className="w-3 h-3" />}
                           </button>
                           <button onClick={() => copy(s.urdu)} className="p-1.5 rounded-md hover:bg-[color:var(--background)]/40">
                             {copied === s.urdu ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
