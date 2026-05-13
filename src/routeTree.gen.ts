@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiTranslateRouteImport } from './routes/api/translate'
 import { Route as ApiSynonymsRouteImport } from './routes/api/synonyms'
+import { Route as ApiMeaningRouteImport } from './routes/api/meaning'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,33 +29,42 @@ const ApiSynonymsRoute = ApiSynonymsRouteImport.update({
   path: '/api/synonyms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiMeaningRoute = ApiMeaningRouteImport.update({
+  id: '/api/meaning',
+  path: '/api/meaning',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/meaning': typeof ApiMeaningRoute
   '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/meaning': typeof ApiMeaningRoute
   '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/meaning': typeof ApiMeaningRoute
   '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/synonyms' | '/api/translate'
+  fullPaths: '/' | '/api/meaning' | '/api/synonyms' | '/api/translate'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/synonyms' | '/api/translate'
-  id: '__root__' | '/' | '/api/synonyms' | '/api/translate'
+  to: '/' | '/api/meaning' | '/api/synonyms' | '/api/translate'
+  id: '__root__' | '/' | '/api/meaning' | '/api/synonyms' | '/api/translate'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiMeaningRoute: typeof ApiMeaningRoute
   ApiSynonymsRoute: typeof ApiSynonymsRoute
   ApiTranslateRoute: typeof ApiTranslateRoute
 }
@@ -82,11 +92,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSynonymsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/meaning': {
+      id: '/api/meaning'
+      path: '/api/meaning'
+      fullPath: '/api/meaning'
+      preLoaderRoute: typeof ApiMeaningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiMeaningRoute: ApiMeaningRoute,
   ApiSynonymsRoute: ApiSynonymsRoute,
   ApiTranslateRoute: ApiTranslateRoute,
 }
