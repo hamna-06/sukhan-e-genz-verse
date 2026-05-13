@@ -86,7 +86,7 @@ export function SmartKeyboard() {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
-            text: `Reply briefly in elegant Khalis Urdu to: "${out}"`,
+            text: `Conversational reply in elegant Khalis Urdu (Nastaliq, 1 short natural sentence, warm tone, no English) to this message: "${out}"`,
           }),
         });
         const data = (await res.json()) as { translation?: string };
