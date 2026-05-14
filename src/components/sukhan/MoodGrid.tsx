@@ -123,7 +123,7 @@ export function MoodGrid() {
             }`}
           >
             <span className="text-xl">{m.emoji}</span>
-            <span className="text-[9px] uppercase tracking-widest">{m.label}</span>
+            <span className="urdu-mini text-xs" dir="rtl">{m.label}</span>
           </motion.button>
         ))}
       </div>
