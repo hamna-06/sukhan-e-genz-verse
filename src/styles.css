@@ -93,7 +93,7 @@
     font-family: var(--font-sans);
     min-height: 100vh;
   }
-  .urdu { font-family: var(--font-urdu); direction: rtl; line-height: 2.2; }
+  .urdu, .nastaliq { font-family: var(--font-urdu); direction: rtl; line-height: 2.2; text-align: right; }
   .display { font-family: var(--font-display); letter-spacing: -0.02em; }
 }
 
