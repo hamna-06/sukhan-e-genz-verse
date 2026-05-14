@@ -186,20 +186,21 @@ export function SmartKeyboard() {
               className="mt-2 px-3 py-2 rounded-xl bg-[color:var(--emerald-deep)]/40 border border-[color:var(--emerald-glow)]/30"
             >
               <div className="flex items-center justify-between gap-2">
-                <p className="text-[9px] uppercase tracking-[0.25em] text-[color:var(--emerald-glow)] flex items-center gap-1">
+                <p className="urdu-mini text-xs text-[color:var(--emerald-glow)] flex items-center gap-1" dir="rtl">
                   {busy ? (
                     <Loader2 className="w-3 h-3 animate-spin" />
                   ) : (
                     <Sparkles className="w-3 h-3" />
                   )}
-                  AI · Khalis preview
+                  اے آئی · خالص جھلک
                 </p>
                 {aiSuggestion && !busy && (
                   <button
                     onClick={() => sendKhalis()}
-                    className="text-[10px] px-2 py-0.5 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] font-medium"
+                    className="urdu-mini text-xs px-2 py-0.5 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] font-medium"
+                    dir="rtl"
                   >
-                    Send ↑
+                    بھیجیں ↑
                   </button>
                 )}
               </div>
