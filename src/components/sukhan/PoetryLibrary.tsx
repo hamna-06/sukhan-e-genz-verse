@@ -171,7 +171,7 @@ export function PoetryLibrary() {
 
       {!result && !busy && (
         <div className="flex flex-wrap gap-1.5 mb-2">
-          <span className="text-[10px] uppercase tracking-widest text-muted-foreground self-center mr-1">Try:</span>
+          <span className="urdu-mini text-sm text-muted-foreground self-center mr-1" dir="rtl">آزمائیں:</span>
           {SUGGESTIONS.map((s) => (
             <button
               key={s}
