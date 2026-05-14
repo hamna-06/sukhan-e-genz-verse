@@ -31,15 +31,15 @@ function Index() {
             className="bento p-8 md:p-14 relative overflow-hidden grain"
           >
             <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full" style={{ background: "var(--emerald-glow)", opacity: 0.18, filter: "blur(60px)" }} />
-            <p className="text-xs uppercase tracking-[0.3em] text-[color:var(--emerald-glow)]">Sukhan-e-Z · est. 2026</p>
+            <p className="urdu-mini text-xs uppercase tracking-[0.3em] text-[color:var(--emerald-glow)]" dir="rtl">سخنِ ز · سنہ ۲۰۲۶</p>
             <h1 className="nastaliq text-5xl md:text-7xl mt-4 leading-[1.4]" dir="rtl">
               پرانی تہذیب،<br />نیا رنگ
             </h1>
             <p className="urdu text-2xl md:text-3xl mt-6 max-w-2xl text-[color:var(--cream)]/90">
               زبانِ شیریں کا ایک نیا انداز
             </p>
-            <p className="text-sm md:text-base text-muted-foreground mt-4 max-w-xl">
-              Refine your text, decode the classics, find verses for your vibe, and turn poetry into a daily ritual.
+            <p className="urdu-tight text-base md:text-lg text-muted-foreground mt-4 max-w-xl" dir="rtl">
+              اپنی تحریر سنواریں، کلاسیک کو سمجھیں، اپنے موڈ کے مطابق اشعار پائیں، اور شاعری کو روزمرہ کا معمول بنائیں۔
             </p>
           </motion.div>
         </div>
