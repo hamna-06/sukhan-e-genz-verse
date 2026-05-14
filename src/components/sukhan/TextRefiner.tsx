@@ -68,7 +68,7 @@ export function TextRefiner() {
           <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">
             Module 01
           </p>
-          <h2 className="display text-2xl md:text-3xl mt-1">Text-to-Nisab</h2>
+          <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">تحریرِ جمال</h2>
           <p className="text-sm text-muted-foreground mt-1">
             Turn any input into elegant Khalis Urdu.
           </p>

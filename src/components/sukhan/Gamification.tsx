@@ -49,7 +49,7 @@ export function Gamification() {
       {/* Profile */}
       <div className="bento p-6 md:p-8">
         <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">Module 05</p>
-        <h2 className="display text-2xl md:text-3xl mt-1">Your Sukhan</h2>
+        <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">آپ کا سخن</h2>
 
         <div className="mt-5 grid grid-cols-2 gap-3">
           <div className="rounded-2xl bg-[color:var(--secondary)]/40 p-4 border border-[color:var(--border)]">

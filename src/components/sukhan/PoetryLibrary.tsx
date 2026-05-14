@@ -139,7 +139,7 @@ export function PoetryLibrary() {
       <div className="flex items-start justify-between mb-4">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">Module 02</p>
-          <h2 className="display text-2xl md:text-3xl mt-1">Lafz Khazana</h2>
+          <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">حرف و صوت</h2>
           <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" /> Type a word — discover its many shades in Urdu.
           </p>

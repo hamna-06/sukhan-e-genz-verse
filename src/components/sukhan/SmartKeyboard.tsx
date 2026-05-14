@@ -119,7 +119,7 @@ export function SmartKeyboard() {
           <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">
             Module 04
           </p>
-          <h2 className="display text-2xl md:text-3xl mt-1">Smart Keyboard</h2>
+          <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">دیوانِ ڈیجیٹل</h2>
           <p className="text-sm text-muted-foreground mt-1">
             AI converts every line to Khalis Urdu in real time.
           </p>

@@ -14,8 +14,8 @@ export function Header() {
             <span className="urdu text-xl text-[color:var(--background)]">س</span>
           </div>
           <div>
-            <h1 className="display text-xl md:text-2xl">Sukhan-e-Z</h1>
-            <p className="text-xs text-muted-foreground -mt-1">Urdu, but make it Gen Z</p>
+            <h1 className="nastaliq text-2xl md:text-3xl" dir="rtl">سخنِ ز</h1>
+            <p className="nastaliq text-xs text-muted-foreground -mt-1" dir="rtl">پرانی تہذیب، نیا رنگ</p>
           </div>
         </motion.div>
         <motion.div
