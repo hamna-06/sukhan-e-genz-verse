@@ -61,8 +61,8 @@ function Index() {
         </div>
       </section>
 
-      <footer className="text-center text-xs text-muted-foreground mt-16 px-6">
-        Built with محبت · Sukhan-e-Z
+      <footer className="text-center mt-16 px-6">
+        <span className="urdu-mini text-sm text-muted-foreground" dir="rtl">محبت سے بنایا گیا · سخنِ ز</span>
       </footer>
     </div>
   );
