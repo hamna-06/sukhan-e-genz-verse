@@ -135,13 +135,13 @@ export function MoodGrid() {
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
             className="mt-5 space-y-3 max-h-[460px] overflow-y-auto pr-1"
           >
-            {(loading || searching) && <p className="text-xs text-muted-foreground">Tuning in…</p>}
+            {(loading || searching) && <p className="urdu-mini text-sm text-muted-foreground" dir="rtl">سن رہے ہیں…</p>}
             {!loading && !searching && list.length === 0 && (
-              <p className="text-xs text-muted-foreground">No verses found.</p>
+              <p className="urdu-mini text-sm text-muted-foreground" dir="rtl">کوئی شعر نہیں ملا۔</p>
             )}
             {!loading && !searching && list.length > 0 && (
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                {list.length} verses {showing ? `· "${query}"` : ""} · tap to see meaning
+              <p className="urdu-mini text-xs text-muted-foreground" dir="rtl">
+                {list.length} اشعار {showing ? `· "${query}"` : ""} · مفہوم دیکھنے کے لیے چھوئیں
               </p>
             )}
             {list.map((v) => {
