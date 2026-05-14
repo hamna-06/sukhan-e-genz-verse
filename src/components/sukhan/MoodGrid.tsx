@@ -95,7 +95,7 @@ export function MoodGrid() {
   return (
     <div className="bento p-6 md:p-8">
       <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">Module 03</p>
-      <h2 className="display text-2xl md:text-3xl mt-1">Vibe Discovery</h2>
+      <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">رنگِ شاعری</h2>
       <p className="text-sm text-muted-foreground mt-1 mb-4">Pick a mood, search, or tap any verse to reveal its meaning.</p>
 
       <div className="relative mb-4">
