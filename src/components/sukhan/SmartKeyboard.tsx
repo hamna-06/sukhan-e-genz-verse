@@ -135,7 +135,7 @@ export function SmartKeyboard() {
               : "text-muted-foreground"
           }`}
         >
-          <Sparkles className="w-3.5 h-3.5" /> AI Live
+          <Sparkles className="w-3.5 h-3.5" /> <span className="urdu-mini text-sm" dir="rtl">اے آئی فوری</span>
         </button>
         <button
           onClick={() => setAiMode(false)}
@@ -145,7 +145,7 @@ export function SmartKeyboard() {
               : "text-muted-foreground"
           }`}
         >
-          <Wand2 className="w-3.5 h-3.5" /> Word
+          <Wand2 className="w-3.5 h-3.5" /> <span className="urdu-mini text-sm" dir="rtl">لفظ</span>
         </button>
       </div>
 
