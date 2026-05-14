@@ -171,9 +171,7 @@ export function TextRefiner() {
                   <div className="mt-6 flex justify-center">
                     <div className="h-px w-12 bg-current opacity-30" />
                   </div>
-                  <p className="text-center text-[10px] uppercase tracking-[0.3em] mt-3 opacity-50">
-                    Khalis Urdu
-                  </p>
+                  <p className="urdu-mini text-center text-sm mt-3 opacity-70" dir="rtl">خالص اردو</p>
                 </div>
 
                 <div className="flex gap-2">
@@ -181,13 +179,13 @@ export function TextRefiner() {
                     onClick={download}
                     className="px-4 py-2 rounded-xl bg-[color:var(--secondary)] text-sm flex items-center gap-2 hover:bg-[color:var(--emerald-deep)] transition"
                   >
-                    <Download className="w-4 h-4" /> Download
+                    <Download className="w-4 h-4" /> <span className="urdu-mini" dir="rtl">محفوظ کریں</span>
                   </button>
                   <button
                     onClick={share}
                     className="px-4 py-2 rounded-xl bg-[color:var(--secondary)] text-sm flex items-center gap-2 hover:bg-[color:var(--emerald-deep)] transition"
                   >
-                    <Share2 className="w-4 h-4" /> Share
+                    <Share2 className="w-4 h-4" /> <span className="urdu-mini" dir="rtl">شیئر کریں</span>
                   </button>
                 </div>
               </>
