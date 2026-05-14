@@ -22,10 +22,10 @@ export function Header() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="hidden md:flex items-center gap-2 text-xs text-muted-foreground bento px-3 py-1.5"
+          className="hidden md:flex items-center gap-2 bento px-3 py-1.5"
         >
           <Sparkles className="w-3.5 h-3.5 text-[color:var(--emerald-glow)]" />
-          A premium lifestyle for poetry
+          <span className="urdu-mini text-sm text-muted-foreground" dir="rtl">شاعری کا پُرتعیش انداز</span>
         </motion.div>
       </div>
     </header>
