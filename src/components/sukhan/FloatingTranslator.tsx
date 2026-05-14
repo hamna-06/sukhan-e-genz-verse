@@ -130,17 +130,17 @@ export function FloatingTranslator() {
                 onChange={(e) => setText(e.target.value)}
                 rows={2}
                 autoFocus
-                placeholder="Type… e.g. tum bahut yaad aate ho"
+                placeholder="لکھیں… مثلاً tum bahut yaad aate ho"
                 className="w-full bg-[color:var(--input)] rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-[color:var(--ring)] resize-none"
               />
 
               <div className="rounded-xl p-3 min-h-[72px] bg-[color:var(--emerald-deep)]/30 border border-[color:var(--emerald-glow)]/30 relative">
-                <p className="text-[9px] uppercase tracking-[0.25em] text-[color:var(--emerald-glow)] mb-1.5">
-                  Khalis Urdu
+                <p className="urdu-mini text-xs text-[color:var(--emerald-glow)] mb-1.5" dir="rtl">
+                  خالص اردو
                 </p>
                 {busy && !out && (
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" /> Translating live…
+                  <div className="urdu-mini flex items-center gap-2 text-sm text-muted-foreground" dir="rtl">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" /> فوری ترجمہ ہو رہا ہے…
                   </div>
                 )}
                 {out && (
@@ -149,8 +149,8 @@ export function FloatingTranslator() {
                   </p>
                 )}
                 {!busy && !out && (
-                  <p className="text-xs text-muted-foreground">
-                    Refined Urdu appears here as you type.
+                  <p className="urdu-mini text-sm text-muted-foreground" dir="rtl">
+                    لکھتے ہی یہاں خالص اردو ظاہر ہو گی۔
                   </p>
                 )}
                 {busy && out && (
@@ -162,21 +162,23 @@ export function FloatingTranslator() {
                 <button
                   disabled={!out}
                   onClick={copy}
-                  className="flex-1 px-3 py-2 rounded-xl bg-[color:var(--cream)] text-[color:var(--background)] text-xs font-medium flex items-center justify-center gap-1.5 disabled:opacity-40"
+                  className="flex-1 px-3 py-2 rounded-xl bg-[color:var(--cream)] text-[color:var(--background)] urdu-mini text-sm font-medium flex items-center justify-center gap-1.5 disabled:opacity-40"
+                  dir="rtl"
                 >
                   {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                  {copied ? "Copied" : "Copy"}
+                  {copied ? "نقل ہوگیا" : "نقل کریں"}
                 </button>
                 <button
                   disabled={!out}
                   onClick={sendWhatsApp}
-                  className="flex-1 px-3 py-2 rounded-xl bg-[color:var(--secondary)] text-xs font-medium flex items-center justify-center gap-1.5 disabled:opacity-40"
+                  className="flex-1 px-3 py-2 rounded-xl bg-[color:var(--secondary)] urdu-mini text-sm font-medium flex items-center justify-center gap-1.5 disabled:opacity-40"
+                  dir="rtl"
                 >
-                  <Send className="w-3.5 h-3.5" /> Share
+                  <Send className="w-3.5 h-3.5" /> شیئر کریں
                 </button>
               </div>
-              <p className="text-[10px] text-muted-foreground text-center pt-1">
-                Tip: keep this open while you chat — copy & paste into Instagram, WhatsApp, anywhere.
+              <p className="urdu-mini text-xs text-muted-foreground text-center pt-1" dir="rtl">
+                تجویز: گفتگو کے دوران اسے کھلا رکھیں — انسٹاگرام، واٹس ایپ، کہیں بھی نقل و چسپاں کریں۔
               </p>
             </div>
           </motion.div>
