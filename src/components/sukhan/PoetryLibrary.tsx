@@ -187,7 +187,7 @@ export function PoetryLibrary() {
       <div className="max-h-[480px] overflow-y-auto pr-1 -mr-1">
         {busy && (
           <div className="flex items-center justify-center py-16 text-muted-foreground text-sm gap-2">
-            <Loader2 className="w-4 h-4 animate-spin" /> Curating khazana…
+            <Loader2 className="w-4 h-4 animate-spin" /> <span className="urdu-mini" dir="rtl">خزانہ تیار ہو رہا ہے…</span>
           </div>
         )}
 
