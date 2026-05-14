@@ -167,8 +167,8 @@ export function SmartKeyboard() {
                   {m.text}
                 </span>
                 {m.original && (
-                  <span className="block text-[10px] opacity-50 mt-1">
-                    you typed: {m.original}
+                  <span className="urdu-mini block text-[11px] opacity-50 mt-1" dir="rtl">
+                    آپ نے لکھا: {m.original}
                   </span>
                 )}
               </div>
