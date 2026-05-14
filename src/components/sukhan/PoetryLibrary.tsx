@@ -138,10 +138,11 @@ export function PoetryLibrary() {
     <div className="bento p-6 md:p-8 relative">
       <div className="flex items-start justify-between mb-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">Module 02</p>
+          <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب دوم</p>
           <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">حرف و صوت</h2>
-          <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5" /> Type a word — discover its many shades in Urdu.
+          <p className="urdu-tight text-sm text-muted-foreground mt-1 flex items-center gap-1.5 justify-end" dir="rtl">
+            ایک لفظ لکھیے — اردو میں اس کے رنگ دریافت کیجیے۔
+            <Sparkles className="w-3.5 h-3.5" />
           </p>
         </div>
         <BookOpen className="w-5 h-5 text-[color:var(--emerald-glow)]" />
