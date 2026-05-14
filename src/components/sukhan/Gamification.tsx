@@ -4,10 +4,10 @@ import { Trophy, Award, Share2, Flame } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const BADGES = [
-  { id: "aghaz", label: "Aghaz-e-Safar", min: 0, emoji: "🌱" },
-  { id: "raahi", label: "Raahi", min: 50, emoji: "🚶" },
-  { id: "sukhanwar", label: "Sukhanwar", min: 200, emoji: "🪶" },
-  { id: "ustad", label: "Ustad", min: 500, emoji: "👑" },
+  { id: "aghaz", label: "آغازِ سفر", min: 0, emoji: "🌱" },
+  { id: "raahi", label: "راہی", min: 50, emoji: "🚶" },
+  { id: "sukhanwar", label: "سخنور", min: 200, emoji: "🪶" },
+  { id: "ustad", label: "اُستاد", min: 500, emoji: "👑" },
 ];
 
 export function Gamification() {
