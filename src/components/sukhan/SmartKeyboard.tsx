@@ -249,9 +249,8 @@ export function SmartKeyboard() {
         </div>
       </div>
 
-      <p className="text-[11px] text-muted-foreground text-center mt-4">
-        Want this everywhere? Use the floating ✒︎ button — type, copy, paste in
-        WhatsApp or Instagram.
+      <p className="urdu-mini text-sm text-muted-foreground text-center mt-4" dir="rtl">
+        ہر جگہ یہی سہولت چاہیں؟ تیرتا ہوا ✒︎ بٹن دبائیں — لکھیں، نقل کریں، اور واٹس ایپ یا انسٹاگرام میں چسپاں کریں۔
       </p>
     </div>
   );
