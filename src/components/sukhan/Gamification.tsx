@@ -48,30 +48,30 @@ export function Gamification() {
     <div className="grid gap-5">
       {/* Profile */}
       <div className="bento p-6 md:p-8">
-        <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">Module 05</p>
+        <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب پنجم</p>
         <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">آپ کا سخن</h2>
 
         <div className="mt-5 grid grid-cols-2 gap-3">
           <div className="rounded-2xl bg-[color:var(--secondary)]/40 p-4 border border-[color:var(--border)]">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground"><Trophy className="w-3.5 h-3.5" /> Sukhan Points</div>
+            <div className="urdu-mini flex items-center gap-2 text-sm text-muted-foreground" dir="rtl"><Trophy className="w-3.5 h-3.5" /> سخن نمبر</div>
             <p className="display text-3xl mt-1">{points}</p>
-            {next && <p className="text-[10px] text-muted-foreground mt-1">{next.min - points} to {next.label}</p>}
+            {next && <p className="urdu-mini text-xs text-muted-foreground mt-1" dir="rtl">{next.label} تک {next.min - points} باقی</p>}
           </div>
           <div className="rounded-2xl bg-[color:var(--secondary)]/40 p-4 border border-[color:var(--border)]">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground"><Flame className="w-3.5 h-3.5" /> Streak</div>
-            <p className="display text-3xl mt-1">3<span className="text-sm text-muted-foreground"> days</span></p>
+            <div className="urdu-mini flex items-center gap-2 text-sm text-muted-foreground" dir="rtl"><Flame className="w-3.5 h-3.5" /> تسلسل</div>
+            <p className="display text-3xl mt-1">3<span className="urdu-mini text-sm text-muted-foreground" dir="rtl"> دن</span></p>
           </div>
         </div>
 
         <div className="mt-4">
-          <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1.5"><Award className="w-3.5 h-3.5" /> Badges</p>
+          <p className="urdu-mini text-sm text-muted-foreground mb-2 flex items-center gap-1.5" dir="rtl"><Award className="w-3.5 h-3.5" /> اعزازات</p>
           <div className="flex flex-wrap gap-2">
             {BADGES.map((b) => {
               const got = earned.find((e) => e.id === b.id);
               return (
-                <div key={b.id} className={`px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 border ${
+                <div key={b.id} className={`px-3 py-1.5 rounded-full urdu-mini text-sm flex items-center gap-1.5 border ${
                   got ? "bg-[color:var(--cream)] text-[color:var(--background)] border-transparent" : "border-[color:var(--border)] opacity-50"
-                }`}>
+                }`} dir="rtl">
                   <span>{b.emoji}</span> {b.label}
                 </div>
               );
