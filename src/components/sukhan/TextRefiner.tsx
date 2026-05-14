@@ -119,7 +119,7 @@ export function TextRefiner() {
           ) : (
             <Wand2 className="w-4 h-4" />
           )}
-          {mode === "ai" ? "Translate to Khalis Urdu" : "Refine to Khalis"}
+          <span className="urdu-mini text-base" dir="rtl">{mode === "ai" ? "خالص اردو میں ترجمہ کریں" : "خالص انداز میں سنواریں"}</span>
         </button>
       </div>
 
