@@ -226,8 +226,8 @@ export function PoetryLibrary() {
               {/* Synonyms grid */}
               {result.synonyms && result.synonyms.length > 0 && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
-                    Synonyms · {result.synonyms.length}
+                  <p className="urdu-mini text-xs text-muted-foreground mb-2" dir="rtl">
+                    مترادفات · {result.synonyms.length}
                   </p>
                   <div className="grid sm:grid-cols-2 gap-2">
                     {result.synonyms.map((s, i) => (
