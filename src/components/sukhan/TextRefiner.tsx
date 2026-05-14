@@ -157,9 +157,7 @@ export function TextRefiner() {
             {refined && !busy && (
               <>
                 <div ref={cardRef} className="bento-cream p-8 md:p-10 relative overflow-hidden">
-                  <div className="absolute top-3 right-4 text-[10px] uppercase tracking-widest opacity-60">
-                    Sukhan-e-Z
-                  </div>
+                  <div className="absolute top-3 right-4 nastaliq text-xs opacity-70" dir="rtl">سخنِ ز</div>
                   <div
                     className="absolute -top-10 -right-10 w-40 h-40 rounded-full"
                     style={{ background: "var(--emerald-deep)", opacity: 0.1 }}
