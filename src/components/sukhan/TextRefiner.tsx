@@ -103,7 +103,7 @@ export function TextRefiner() {
         onChange={(e) => setInput(e.target.value)}
         rows={3}
         className="w-full bg-[color:var(--input)] rounded-xl p-4 text-sm outline-none focus:ring-2 focus:ring-[color:var(--ring)] resize-none"
-        placeholder="Type anything — Roman Urdu, English, or mixed…"
+        placeholder="کچھ بھی لکھیے — رومن اردو، انگلش یا مخلوط…"
       />
 
       <div className="flex gap-2 mt-3">
