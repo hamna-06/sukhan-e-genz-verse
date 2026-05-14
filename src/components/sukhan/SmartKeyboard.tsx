@@ -234,9 +234,10 @@ export function SmartKeyboard() {
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
             placeholder={
-              aiMode ? "Type in any language…" : "Type Roman Urdu…"
+              aiMode ? "کسی بھی زبان میں لکھیں…" : "رومن اردو میں لکھیں…"
             }
-            className="flex-1 bg-transparent outline-none text-white text-sm px-3"
+            className="flex-1 bg-transparent outline-none text-white text-sm px-3 urdu-mini"
+            dir="rtl"
           />
           <button
             onClick={handleSend}
