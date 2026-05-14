@@ -220,9 +220,10 @@ export function SmartKeyboard() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="mt-2 mx-auto block px-4 py-1.5 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] text-xs font-medium"
+              className="mt-2 mx-auto block px-4 py-1.5 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] urdu-mini text-sm font-medium"
+              dir="rtl"
             >
-              Try: <span className="urdu text-sm">{dictSuggestion}</span> ↑
+              آزمائیں: <span className="urdu text-base">{dictSuggestion}</span> ↑
             </motion.button>
           )}
         </AnimatePresence>
