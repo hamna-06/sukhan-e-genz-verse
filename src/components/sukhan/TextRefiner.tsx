@@ -144,7 +144,7 @@ export function TextRefiner() {
                 <p className="urdu-mini text-xs uppercase tracking-[0.25em] text-[color:var(--emerald-glow)] mb-2" dir="rtl">بعد · خالص اردو</p>
                 {busy ? (
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Loader2 className="w-4 h-4 animate-spin" /> Translating…
+                    <Loader2 className="w-4 h-4 animate-spin" /> <span className="urdu-mini" dir="rtl">ترجمہ ہو رہا ہے…</span>
                   </div>
                 ) : (
                   <p className="urdu text-xl md:text-2xl leading-loose text-right" dir="rtl">
