@@ -134,18 +134,14 @@ export function TextRefiner() {
             {/* Before / After preview */}
             <div className="grid md:grid-cols-2 gap-3">
               <div className="rounded-xl p-4 bg-[color:var(--input)]/60 border border-[color:var(--border)]">
-                <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
-                  Before
-                </p>
+                <p className="urdu-mini text-xs uppercase tracking-[0.25em] text-muted-foreground mb-2" dir="rtl">پہلے</p>
                 <p className="text-sm leading-relaxed">{input}</p>
               </div>
               <div className="rounded-xl p-4 bg-[color:var(--emerald-deep)]/30 border border-[color:var(--emerald-glow)]/30 relative">
                 <div className="absolute -left-3 top-1/2 -translate-y-1/2 hidden md:flex w-6 h-6 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] items-center justify-center">
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
-                <p className="text-[10px] uppercase tracking-[0.25em] text-[color:var(--emerald-glow)] mb-2">
-                  After · Khalis
-                </p>
+                <p className="urdu-mini text-xs uppercase tracking-[0.25em] text-[color:var(--emerald-glow)] mb-2" dir="rtl">بعد · خالص اردو</p>
                 {busy ? (
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Loader2 className="w-4 h-4 animate-spin" /> Translating…
