@@ -32,8 +32,8 @@ function Index() {
           >
             <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full" style={{ background: "var(--emerald-glow)", opacity: 0.18, filter: "blur(60px)" }} />
             <p className="text-xs uppercase tracking-[0.3em] text-[color:var(--emerald-glow)]">Sukhan-e-Z · est. 2026</p>
-            <h1 className="display text-5xl md:text-7xl mt-4 leading-[0.95]">
-              Urdu, but <em className="italic">make it</em><br />Gen Z.
+            <h1 className="nastaliq text-5xl md:text-7xl mt-4 leading-[1.4]" dir="rtl">
+              پرانی تہذیب،<br />نیا رنگ
             </h1>
             <p className="urdu text-2xl md:text-3xl mt-6 max-w-2xl text-[color:var(--cream)]/90">
               زبانِ شیریں کا ایک نیا انداز
