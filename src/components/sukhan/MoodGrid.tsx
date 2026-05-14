@@ -4,21 +4,21 @@ import { Search, Loader2, Sparkles, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const MOODS = [
-  { tag: "mohabbat", emoji: "🌹", label: "Mohabbat" },
-  { tag: "judaai", emoji: "💔", label: "Judaai" },
-  { tag: "tanhaai", emoji: "☕", label: "Tanhaai" },
-  { tag: "gham", emoji: "🥀", label: "Gham" },
-  { tag: "umeed", emoji: "✨", label: "Umeed" },
-  { tag: "junoon", emoji: "🚀", label: "Junoon" },
-  { tag: "barish", emoji: "🌧️", label: "Barish" },
-  { tag: "shab", emoji: "🌙", label: "Shab" },
-  { tag: "zindagi", emoji: "🛣️", label: "Zindagi" },
-  { tag: "dosti", emoji: "🤝", label: "Dosti" },
-  { tag: "bewafai", emoji: "🥶", label: "Bewafai" },
-  { tag: "burnout", emoji: "🔥", label: "Burnout" },
-  { tag: "anxiety", emoji: "😮‍💨", label: "Anxiety" },
-  { tag: "identity", emoji: "🪞", label: "Identity" },
-  { tag: "hustle", emoji: "⏱️", label: "Hustle" },
+  { tag: "mohabbat", emoji: "🌹", label: "محبت" },
+  { tag: "judaai", emoji: "💔", label: "جدائی" },
+  { tag: "tanhaai", emoji: "☕", label: "تنہائی" },
+  { tag: "gham", emoji: "🥀", label: "غم" },
+  { tag: "umeed", emoji: "✨", label: "اُمید" },
+  { tag: "junoon", emoji: "🚀", label: "جنون" },
+  { tag: "barish", emoji: "🌧️", label: "بارش" },
+  { tag: "shab", emoji: "🌙", label: "شب" },
+  { tag: "zindagi", emoji: "🛣️", label: "زندگی" },
+  { tag: "dosti", emoji: "🤝", label: "دوستی" },
+  { tag: "bewafai", emoji: "🥶", label: "بے وفائی" },
+  { tag: "burnout", emoji: "🔥", label: "تھکن" },
+  { tag: "anxiety", emoji: "😮‍💨", label: "بے چینی" },
+  { tag: "identity", emoji: "🪞", label: "شناخت" },
+  { tag: "hustle", emoji: "⏱️", label: "دوڑ" },
 ];
 
 type V = { id: string; content: string; poet: string; vibe?: string };
