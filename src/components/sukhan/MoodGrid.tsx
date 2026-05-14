@@ -160,8 +160,8 @@ export function MoodGrid() {
                   <p className="urdu text-lg" dir="rtl">{clean(v.content)}</p>
                   <div className="flex items-center justify-between mt-2 gap-2">
                     <p className="text-[10px] uppercase tracking-widest opacity-60">— {v.poet}{v.vibe ? ` · ${v.vibe}` : ""}</p>
-                    <span className="text-[10px] uppercase tracking-widest text-[color:var(--emerald-glow)] flex items-center gap-1">
-                      {isOpen ? <><X className="w-3 h-3" /> close</> : <><Sparkles className="w-3 h-3" /> meaning</>}
+                    <span className="urdu-mini text-xs text-[color:var(--emerald-glow)] flex items-center gap-1" dir="rtl">
+                      {isOpen ? <><X className="w-3 h-3" /> بند کریں</> : <><Sparkles className="w-3 h-3" /> مفہوم</>}
                     </span>
                   </div>
                   <AnimatePresence>
