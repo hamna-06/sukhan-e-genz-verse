@@ -262,8 +262,8 @@ export function PoetryLibrary() {
               {/* Phrases */}
               {result.phrases && result.phrases.length > 0 && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
-                    Literary phrases
+                  <p className="urdu-mini text-xs text-muted-foreground mb-2" dir="rtl">
+                    ادبی فقرے
                   </p>
                   <div className="space-y-2">
                     {result.phrases.map((p, i) => (
