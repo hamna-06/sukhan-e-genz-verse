@@ -111,8 +111,8 @@ export function FloatingTranslator() {
                   <Sparkles className="w-3.5 h-3.5 text-[color:var(--emerald-glow)]" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium">Khalis Keyboard</p>
-                  <p className="text-[10px] text-muted-foreground">Type anywhere · paste in chat</p>
+                  <p className="urdu-mini text-sm font-medium" dir="rtl">خالص کی بورڈ</p>
+                  <p className="urdu-mini text-xs text-muted-foreground" dir="rtl">کہیں بھی لکھیں · گفتگو میں چسپاں کریں</p>
                 </div>
               </div>
               <button
