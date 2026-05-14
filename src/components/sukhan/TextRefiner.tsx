@@ -84,7 +84,7 @@ export function TextRefiner() {
               : "text-muted-foreground"
           }`}
         >
-          <Sparkles className="w-3.5 h-3.5" /> AI Translate
+          <Sparkles className="w-3.5 h-3.5" /> <span className="urdu-mini text-sm" dir="rtl">اے آئی ترجمہ</span>
         </button>
         <button
           onClick={() => setMode("dict")}
@@ -94,7 +94,7 @@ export function TextRefiner() {
               : "text-muted-foreground"
           }`}
         >
-          <Wand2 className="w-3.5 h-3.5" /> Word Refine
+          <Wand2 className="w-3.5 h-3.5" /> <span className="urdu-mini text-sm" dir="rtl">لفظ سنواریں</span>
         </button>
       </div>
 
