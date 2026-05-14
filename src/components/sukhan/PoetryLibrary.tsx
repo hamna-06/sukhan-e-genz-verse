@@ -138,10 +138,11 @@ export function PoetryLibrary() {
     <div className="bento p-6 md:p-8 relative">
       <div className="flex items-start justify-between mb-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">Module 02</p>
+          <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب دوم</p>
           <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">حرف و صوت</h2>
-          <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5" /> Type a word — discover its many shades in Urdu.
+          <p className="urdu-tight text-sm text-muted-foreground mt-1 flex items-center gap-1.5 justify-end" dir="rtl">
+            ایک لفظ لکھیے — اردو میں اس کے رنگ دریافت کیجیے۔
+            <Sparkles className="w-3.5 h-3.5" />
           </p>
         </div>
         <BookOpen className="w-5 h-5 text-[color:var(--emerald-glow)]" />
@@ -155,7 +156,7 @@ export function PoetryLibrary() {
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="e.g. love, moon, sad, junoon, mohabbat…"
+          placeholder="مثلاً: محبت، چاند، اداس، جنون، عشق…"
           className="w-full pl-9 pr-28 py-3 rounded-xl bg-[color:var(--secondary)]/40 border border-[color:var(--border)] text-sm outline-none focus:border-[color:var(--emerald-glow)] transition"
         />
         <button
@@ -164,13 +165,13 @@ export function PoetryLibrary() {
           className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-[color:var(--cream)] text-[color:var(--background)] text-xs font-medium flex items-center gap-1.5 disabled:opacity-50"
         >
           {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
-          Discover
+          <span className="urdu-mini text-sm" dir="rtl">دریافت</span>
         </button>
       </form>
 
       {!result && !busy && (
         <div className="flex flex-wrap gap-1.5 mb-2">
-          <span className="text-[10px] uppercase tracking-widest text-muted-foreground self-center mr-1">Try:</span>
+          <span className="urdu-mini text-sm text-muted-foreground self-center mr-1" dir="rtl">آزمائیں:</span>
           {SUGGESTIONS.map((s) => (
             <button
               key={s}
@@ -186,7 +187,7 @@ export function PoetryLibrary() {
       <div className="max-h-[480px] overflow-y-auto pr-1 -mr-1">
         {busy && (
           <div className="flex items-center justify-center py-16 text-muted-foreground text-sm gap-2">
-            <Loader2 className="w-4 h-4 animate-spin" /> Curating khazana…
+            <Loader2 className="w-4 h-4 animate-spin" /> <span className="urdu-mini" dir="rtl">خزانہ تیار ہو رہا ہے…</span>
           </div>
         )}
 
@@ -225,8 +226,8 @@ export function PoetryLibrary() {
               {/* Synonyms grid */}
               {result.synonyms && result.synonyms.length > 0 && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
-                    Synonyms · {result.synonyms.length}
+                  <p className="urdu-mini text-xs text-muted-foreground mb-2" dir="rtl">
+                    مترادفات · {result.synonyms.length}
                   </p>
                   <div className="grid sm:grid-cols-2 gap-2">
                     {result.synonyms.map((s, i) => (
@@ -261,8 +262,8 @@ export function PoetryLibrary() {
               {/* Phrases */}
               {result.phrases && result.phrases.length > 0 && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
-                    Literary phrases
+                  <p className="urdu-mini text-xs text-muted-foreground mb-2" dir="rtl">
+                    ادبی فقرے
                   </p>
                   <div className="space-y-2">
                     {result.phrases.map((p, i) => (

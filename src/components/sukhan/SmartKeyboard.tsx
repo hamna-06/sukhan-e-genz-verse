@@ -116,12 +116,10 @@ export function SmartKeyboard() {
     <div className="bento p-6 md:p-8">
       <div className="flex items-start justify-between mb-5">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">
-            Module 04
-          </p>
+          <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب چہارم</p>
           <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">دیوانِ ڈیجیٹل</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            AI converts every line to Khalis Urdu in real time.
+          <p className="urdu-tight text-sm text-muted-foreground mt-1" dir="rtl">
+            اے آئی آپ کی ہر سطر فوراً خالص اردو میں ڈھال دیتا ہے۔
           </p>
         </div>
         <Smartphone className="w-5 h-5 text-[color:var(--emerald-glow)]" />
@@ -137,7 +135,7 @@ export function SmartKeyboard() {
               : "text-muted-foreground"
           }`}
         >
-          <Sparkles className="w-3.5 h-3.5" /> AI Live
+          <Sparkles className="w-3.5 h-3.5" /> <span className="urdu-mini text-sm" dir="rtl">اے آئی فوری</span>
         </button>
         <button
           onClick={() => setAiMode(false)}
@@ -147,7 +145,7 @@ export function SmartKeyboard() {
               : "text-muted-foreground"
           }`}
         >
-          <Wand2 className="w-3.5 h-3.5" /> Word
+          <Wand2 className="w-3.5 h-3.5" /> <span className="urdu-mini text-sm" dir="rtl">لفظ</span>
         </button>
       </div>
 
@@ -169,8 +167,8 @@ export function SmartKeyboard() {
                   {m.text}
                 </span>
                 {m.original && (
-                  <span className="block text-[10px] opacity-50 mt-1">
-                    you typed: {m.original}
+                  <span className="urdu-mini block text-[11px] opacity-50 mt-1" dir="rtl">
+                    آپ نے لکھا: {m.original}
                   </span>
                 )}
               </div>
@@ -188,20 +186,21 @@ export function SmartKeyboard() {
               className="mt-2 px-3 py-2 rounded-xl bg-[color:var(--emerald-deep)]/40 border border-[color:var(--emerald-glow)]/30"
             >
               <div className="flex items-center justify-between gap-2">
-                <p className="text-[9px] uppercase tracking-[0.25em] text-[color:var(--emerald-glow)] flex items-center gap-1">
+                <p className="urdu-mini text-xs text-[color:var(--emerald-glow)] flex items-center gap-1" dir="rtl">
                   {busy ? (
                     <Loader2 className="w-3 h-3 animate-spin" />
                   ) : (
                     <Sparkles className="w-3 h-3" />
                   )}
-                  AI · Khalis preview
+                  اے آئی · خالص جھلک
                 </p>
                 {aiSuggestion && !busy && (
                   <button
                     onClick={() => sendKhalis()}
-                    className="text-[10px] px-2 py-0.5 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] font-medium"
+                    className="urdu-mini text-xs px-2 py-0.5 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] font-medium"
+                    dir="rtl"
                   >
-                    Send ↑
+                    بھیجیں ↑
                   </button>
                 )}
               </div>
@@ -221,9 +220,10 @@ export function SmartKeyboard() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="mt-2 mx-auto block px-4 py-1.5 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] text-xs font-medium"
+              className="mt-2 mx-auto block px-4 py-1.5 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] urdu-mini text-sm font-medium"
+              dir="rtl"
             >
-              Try: <span className="urdu text-sm">{dictSuggestion}</span> ↑
+              آزمائیں: <span className="urdu text-base">{dictSuggestion}</span> ↑
             </motion.button>
           )}
         </AnimatePresence>
@@ -234,9 +234,10 @@ export function SmartKeyboard() {
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
             placeholder={
-              aiMode ? "Type in any language…" : "Type Roman Urdu…"
+              aiMode ? "کسی بھی زبان میں لکھیں…" : "رومن اردو میں لکھیں…"
             }
-            className="flex-1 bg-transparent outline-none text-white text-sm px-3"
+            className="flex-1 bg-transparent outline-none text-white text-sm px-3 urdu-mini"
+            dir="rtl"
           />
           <button
             onClick={handleSend}
@@ -248,9 +249,8 @@ export function SmartKeyboard() {
         </div>
       </div>
 
-      <p className="text-[11px] text-muted-foreground text-center mt-4">
-        Want this everywhere? Use the floating ✒︎ button — type, copy, paste in
-        WhatsApp or Instagram.
+      <p className="urdu-mini text-sm text-muted-foreground text-center mt-4" dir="rtl">
+        ہر جگہ یہی سہولت چاہیں؟ تیرتا ہوا ✒︎ بٹن دبائیں — لکھیں، نقل کریں، اور واٹس ایپ یا انسٹاگرام میں چسپاں کریں۔
       </p>
     </div>
   );

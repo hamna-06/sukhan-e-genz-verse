@@ -4,21 +4,21 @@ import { Search, Loader2, Sparkles, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const MOODS = [
-  { tag: "mohabbat", emoji: "🌹", label: "Mohabbat" },
-  { tag: "judaai", emoji: "💔", label: "Judaai" },
-  { tag: "tanhaai", emoji: "☕", label: "Tanhaai" },
-  { tag: "gham", emoji: "🥀", label: "Gham" },
-  { tag: "umeed", emoji: "✨", label: "Umeed" },
-  { tag: "junoon", emoji: "🚀", label: "Junoon" },
-  { tag: "barish", emoji: "🌧️", label: "Barish" },
-  { tag: "shab", emoji: "🌙", label: "Shab" },
-  { tag: "zindagi", emoji: "🛣️", label: "Zindagi" },
-  { tag: "dosti", emoji: "🤝", label: "Dosti" },
-  { tag: "bewafai", emoji: "🥶", label: "Bewafai" },
-  { tag: "burnout", emoji: "🔥", label: "Burnout" },
-  { tag: "anxiety", emoji: "😮‍💨", label: "Anxiety" },
-  { tag: "identity", emoji: "🪞", label: "Identity" },
-  { tag: "hustle", emoji: "⏱️", label: "Hustle" },
+  { tag: "mohabbat", emoji: "🌹", label: "محبت" },
+  { tag: "judaai", emoji: "💔", label: "جدائی" },
+  { tag: "tanhaai", emoji: "☕", label: "تنہائی" },
+  { tag: "gham", emoji: "🥀", label: "غم" },
+  { tag: "umeed", emoji: "✨", label: "اُمید" },
+  { tag: "junoon", emoji: "🚀", label: "جنون" },
+  { tag: "barish", emoji: "🌧️", label: "بارش" },
+  { tag: "shab", emoji: "🌙", label: "شب" },
+  { tag: "zindagi", emoji: "🛣️", label: "زندگی" },
+  { tag: "dosti", emoji: "🤝", label: "دوستی" },
+  { tag: "bewafai", emoji: "🥶", label: "بے وفائی" },
+  { tag: "burnout", emoji: "🔥", label: "تھکن" },
+  { tag: "anxiety", emoji: "😮‍💨", label: "بے چینی" },
+  { tag: "identity", emoji: "🪞", label: "شناخت" },
+  { tag: "hustle", emoji: "⏱️", label: "دوڑ" },
 ];
 
 type V = { id: string; content: string; poet: string; vibe?: string };
@@ -94,17 +94,17 @@ export function MoodGrid() {
 
   return (
     <div className="bento p-6 md:p-8">
-      <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">Module 03</p>
+      <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب سوم</p>
       <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">رنگِ شاعری</h2>
-      <p className="text-sm text-muted-foreground mt-1 mb-4">Pick a mood, search, or tap any verse to reveal its meaning.</p>
+      <p className="urdu-tight text-sm text-muted-foreground mt-1 mb-4" dir="rtl">کوئی موڈ چنیں، تلاش کریں، یا کسی شعر کو چھو کر اس کا مفہوم دیکھیں۔</p>
 
       <div className="relative mb-4">
         <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search: love, burnout, Ghalib, dil…"
-          className="w-full pl-9 pr-9 py-2.5 rounded-xl bg-[color:var(--secondary)]/40 border border-[color:var(--border)] text-sm outline-none focus:border-[color:var(--emerald-glow)] transition"
+          placeholder="تلاش: محبت، تنہائی، غالب، دل…"
+          className="w-full pl-9 pr-9 py-2.5 rounded-xl bg-[color:var(--secondary)]/40 border border-[color:var(--border)] text-sm outline-none focus:border-[color:var(--emerald-glow)] transition urdu-mini"
         />
         {searching && <Loader2 className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 animate-spin text-muted-foreground" />}
       </div>
@@ -123,7 +123,7 @@ export function MoodGrid() {
             }`}
           >
             <span className="text-xl">{m.emoji}</span>
-            <span className="text-[9px] uppercase tracking-widest">{m.label}</span>
+            <span className="urdu-mini text-xs" dir="rtl">{m.label}</span>
           </motion.button>
         ))}
       </div>
@@ -135,13 +135,13 @@ export function MoodGrid() {
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
             className="mt-5 space-y-3 max-h-[460px] overflow-y-auto pr-1"
           >
-            {(loading || searching) && <p className="text-xs text-muted-foreground">Tuning in…</p>}
+            {(loading || searching) && <p className="urdu-mini text-sm text-muted-foreground" dir="rtl">سن رہے ہیں…</p>}
             {!loading && !searching && list.length === 0 && (
-              <p className="text-xs text-muted-foreground">No verses found.</p>
+              <p className="urdu-mini text-sm text-muted-foreground" dir="rtl">کوئی شعر نہیں ملا۔</p>
             )}
             {!loading && !searching && list.length > 0 && (
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                {list.length} verses {showing ? `· "${query}"` : ""} · tap to see meaning
+              <p className="urdu-mini text-xs text-muted-foreground" dir="rtl">
+                {list.length} اشعار {showing ? `· "${query}"` : ""} · مفہوم دیکھنے کے لیے چھوئیں
               </p>
             )}
             {list.map((v) => {
@@ -160,8 +160,8 @@ export function MoodGrid() {
                   <p className="urdu text-lg" dir="rtl">{clean(v.content)}</p>
                   <div className="flex items-center justify-between mt-2 gap-2">
                     <p className="text-[10px] uppercase tracking-widest opacity-60">— {v.poet}{v.vibe ? ` · ${v.vibe}` : ""}</p>
-                    <span className="text-[10px] uppercase tracking-widest text-[color:var(--emerald-glow)] flex items-center gap-1">
-                      {isOpen ? <><X className="w-3 h-3" /> close</> : <><Sparkles className="w-3 h-3" /> meaning</>}
+                    <span className="urdu-mini text-xs text-[color:var(--emerald-glow)] flex items-center gap-1" dir="rtl">
+                      {isOpen ? <><X className="w-3 h-3" /> بند کریں</> : <><Sparkles className="w-3 h-3" /> مفہوم</>}
                     </span>
                   </div>
                   <AnimatePresence>
@@ -174,8 +174,8 @@ export function MoodGrid() {
                       >
                         <div className="mt-3 pt-3 border-t border-[color:var(--border)] space-y-1.5">
                           {m?.loading && (
-                            <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-                              <Loader2 className="w-3 h-3 animate-spin" /> Reading the verse…
+                            <p className="urdu-mini text-sm text-muted-foreground flex items-center gap-1.5" dir="rtl">
+                              <Loader2 className="w-3 h-3 animate-spin" /> شعر کو پڑھ رہے ہیں…
                             </p>
                           )}
                           {m?.error && <p className="text-xs text-destructive">{m.error}</p>}

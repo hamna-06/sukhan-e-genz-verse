@@ -65,12 +65,10 @@ export function TextRefiner() {
     <div className="bento p-6 md:p-8 relative grain overflow-hidden">
       <div className="flex items-start justify-between mb-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">
-            Module 01
-          </p>
+          <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب اول</p>
           <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">تحریرِ جمال</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            Turn any input into elegant Khalis Urdu.
+          <p className="urdu-tight text-sm text-muted-foreground mt-1" dir="rtl">
+            کوئی بھی تحریر، خالص اردو کے دلکش انداز میں۔
           </p>
         </div>
         <Wand2 className="w-5 h-5 text-[color:var(--emerald-glow)]" />
@@ -86,7 +84,7 @@ export function TextRefiner() {
               : "text-muted-foreground"
           }`}
         >
-          <Sparkles className="w-3.5 h-3.5" /> AI Translate
+          <Sparkles className="w-3.5 h-3.5" /> <span className="urdu-mini text-sm" dir="rtl">اے آئی ترجمہ</span>
         </button>
         <button
           onClick={() => setMode("dict")}
@@ -96,7 +94,7 @@ export function TextRefiner() {
               : "text-muted-foreground"
           }`}
         >
-          <Wand2 className="w-3.5 h-3.5" /> Word Refine
+          <Wand2 className="w-3.5 h-3.5" /> <span className="urdu-mini text-sm" dir="rtl">لفظ سنواریں</span>
         </button>
       </div>
 
@@ -105,7 +103,7 @@ export function TextRefiner() {
         onChange={(e) => setInput(e.target.value)}
         rows={3}
         className="w-full bg-[color:var(--input)] rounded-xl p-4 text-sm outline-none focus:ring-2 focus:ring-[color:var(--ring)] resize-none"
-        placeholder="Type anything — Roman Urdu, English, or mixed…"
+        placeholder="کچھ بھی لکھیے — رومن اردو، انگلش یا مخلوط…"
       />
 
       <div className="flex gap-2 mt-3">
@@ -121,7 +119,7 @@ export function TextRefiner() {
           ) : (
             <Wand2 className="w-4 h-4" />
           )}
-          {mode === "ai" ? "Translate to Khalis Urdu" : "Refine to Khalis"}
+          <span className="urdu-mini text-base" dir="rtl">{mode === "ai" ? "خالص اردو میں ترجمہ کریں" : "خالص انداز میں سنواریں"}</span>
         </button>
       </div>
 
@@ -136,21 +134,17 @@ export function TextRefiner() {
             {/* Before / After preview */}
             <div className="grid md:grid-cols-2 gap-3">
               <div className="rounded-xl p-4 bg-[color:var(--input)]/60 border border-[color:var(--border)]">
-                <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
-                  Before
-                </p>
+                <p className="urdu-mini text-xs uppercase tracking-[0.25em] text-muted-foreground mb-2" dir="rtl">پہلے</p>
                 <p className="text-sm leading-relaxed">{input}</p>
               </div>
               <div className="rounded-xl p-4 bg-[color:var(--emerald-deep)]/30 border border-[color:var(--emerald-glow)]/30 relative">
                 <div className="absolute -left-3 top-1/2 -translate-y-1/2 hidden md:flex w-6 h-6 rounded-full bg-[color:var(--cream)] text-[color:var(--background)] items-center justify-center">
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
-                <p className="text-[10px] uppercase tracking-[0.25em] text-[color:var(--emerald-glow)] mb-2">
-                  After · Khalis
-                </p>
+                <p className="urdu-mini text-xs uppercase tracking-[0.25em] text-[color:var(--emerald-glow)] mb-2" dir="rtl">بعد · خالص اردو</p>
                 {busy ? (
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Loader2 className="w-4 h-4 animate-spin" /> Translating…
+                    <Loader2 className="w-4 h-4 animate-spin" /> <span className="urdu-mini" dir="rtl">ترجمہ ہو رہا ہے…</span>
                   </div>
                 ) : (
                   <p className="urdu text-xl md:text-2xl leading-loose text-right" dir="rtl">
@@ -163,9 +157,7 @@ export function TextRefiner() {
             {refined && !busy && (
               <>
                 <div ref={cardRef} className="bento-cream p-8 md:p-10 relative overflow-hidden">
-                  <div className="absolute top-3 right-4 text-[10px] uppercase tracking-widest opacity-60">
-                    Sukhan-e-Z
-                  </div>
+                  <div className="absolute top-3 right-4 nastaliq text-xs opacity-70" dir="rtl">سخنِ ز</div>
                   <div
                     className="absolute -top-10 -right-10 w-40 h-40 rounded-full"
                     style={{ background: "var(--emerald-deep)", opacity: 0.1 }}
@@ -179,9 +171,7 @@ export function TextRefiner() {
                   <div className="mt-6 flex justify-center">
                     <div className="h-px w-12 bg-current opacity-30" />
                   </div>
-                  <p className="text-center text-[10px] uppercase tracking-[0.3em] mt-3 opacity-50">
-                    Khalis Urdu
-                  </p>
+                  <p className="urdu-mini text-center text-sm mt-3 opacity-70" dir="rtl">خالص اردو</p>
                 </div>
 
                 <div className="flex gap-2">
@@ -189,13 +179,13 @@ export function TextRefiner() {
                     onClick={download}
                     className="px-4 py-2 rounded-xl bg-[color:var(--secondary)] text-sm flex items-center gap-2 hover:bg-[color:var(--emerald-deep)] transition"
                   >
-                    <Download className="w-4 h-4" /> Download
+                    <Download className="w-4 h-4" /> <span className="urdu-mini" dir="rtl">محفوظ کریں</span>
                   </button>
                   <button
                     onClick={share}
                     className="px-4 py-2 rounded-xl bg-[color:var(--secondary)] text-sm flex items-center gap-2 hover:bg-[color:var(--emerald-deep)] transition"
                   >
-                    <Share2 className="w-4 h-4" /> Share
+                    <Share2 className="w-4 h-4" /> <span className="urdu-mini" dir="rtl">شیئر کریں</span>
                   </button>
                 </div>
               </>
