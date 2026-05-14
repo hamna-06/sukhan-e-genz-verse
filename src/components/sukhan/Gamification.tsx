@@ -84,12 +84,12 @@ export function Gamification() {
       {wow && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bento-cream p-6 md:p-8 relative overflow-hidden">
           <div className="absolute -top-8 -left-8 w-32 h-32 rounded-full" style={{ background: "var(--emerald-deep)", opacity: 0.1 }} />
-          <p className="text-[10px] uppercase tracking-[0.3em] opacity-60">Word of the Week</p>
+          <p className="urdu-mini text-xs uppercase tracking-[0.3em] opacity-60" dir="rtl">ہفتے کا لفظ</p>
           <p className="urdu text-5xl mt-3">{wow.word}</p>
-          <p className="text-sm mt-3 opacity-80">{wow.meaning}</p>
+          <p className="urdu-tight text-base mt-3 opacity-80" dir="rtl">{wow.meaning}</p>
           {wow.example && <p className="urdu text-lg mt-2 opacity-90">"{wow.example}"</p>}
-          <button onClick={() => addPoints(10)} className="mt-4 px-4 py-2 rounded-xl bg-[color:var(--emerald-deep)] text-[color:var(--cream)] text-xs font-medium">
-            +10 Sukhan • Mark Learned
+          <button onClick={() => addPoints(10)} className="mt-4 px-4 py-2 rounded-xl bg-[color:var(--emerald-deep)] text-[color:var(--cream)] urdu-mini text-sm font-medium" dir="rtl">
+            +۱۰ سخن • سیکھ لیا
           </button>
         </motion.div>
       )}
@@ -97,12 +97,12 @@ export function Gamification() {
       {/* Daily quote */}
       {quote && (
         <div className="bento p-6 md:p-8">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[color:var(--emerald-glow)]">Daily Quote</p>
+          <p className="urdu-mini text-xs uppercase tracking-[0.3em] text-[color:var(--emerald-glow)]" dir="rtl">قولِ روز</p>
           <p className="urdu text-2xl mt-3 leading-loose">{quote.quote}</p>
           <div className="flex items-center justify-between mt-4">
-            <p className="text-xs text-muted-foreground">— {quote.poet}</p>
-            <button onClick={shareQuote} className="px-4 py-2 rounded-xl bg-[color:var(--cream)] text-[color:var(--background)] text-xs font-medium flex items-center gap-2">
-              <Share2 className="w-3.5 h-3.5" /> WhatsApp
+            <p className="urdu-mini text-sm text-muted-foreground" dir="rtl">— {quote.poet}</p>
+            <button onClick={shareQuote} className="px-4 py-2 rounded-xl bg-[color:var(--cream)] text-[color:var(--background)] urdu-mini text-sm font-medium flex items-center gap-2" dir="rtl">
+              <Share2 className="w-3.5 h-3.5" /> واٹس ایپ
             </button>
           </div>
         </div>
