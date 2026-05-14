@@ -156,7 +156,7 @@ export function PoetryLibrary() {
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="e.g. love, moon, sad, junoon, mohabbat…"
+          placeholder="مثلاً: محبت، چاند، اداس، جنون، عشق…"
           className="w-full pl-9 pr-28 py-3 rounded-xl bg-[color:var(--secondary)]/40 border border-[color:var(--border)] text-sm outline-none focus:border-[color:var(--emerald-glow)] transition"
         />
         <button
@@ -165,7 +165,7 @@ export function PoetryLibrary() {
           className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-[color:var(--cream)] text-[color:var(--background)] text-xs font-medium flex items-center gap-1.5 disabled:opacity-50"
         >
           {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
-          Discover
+          <span className="urdu-mini text-sm" dir="rtl">دریافت</span>
         </button>
       </form>
 
