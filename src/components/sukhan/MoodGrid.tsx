@@ -94,17 +94,17 @@ export function MoodGrid() {
 
   return (
     <div className="bento p-6 md:p-8">
-      <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]">Module 03</p>
+      <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب سوم</p>
       <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">رنگِ شاعری</h2>
-      <p className="text-sm text-muted-foreground mt-1 mb-4">Pick a mood, search, or tap any verse to reveal its meaning.</p>
+      <p className="urdu-tight text-sm text-muted-foreground mt-1 mb-4" dir="rtl">کوئی موڈ چنیں، تلاش کریں، یا کسی شعر کو چھو کر اس کا مفہوم دیکھیں۔</p>
 
       <div className="relative mb-4">
         <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search: love, burnout, Ghalib, dil…"
-          className="w-full pl-9 pr-9 py-2.5 rounded-xl bg-[color:var(--secondary)]/40 border border-[color:var(--border)] text-sm outline-none focus:border-[color:var(--emerald-glow)] transition"
+          placeholder="تلاش: محبت، تنہائی، غالب، دل…"
+          className="w-full pl-9 pr-9 py-2.5 rounded-xl bg-[color:var(--secondary)]/40 border border-[color:var(--border)] text-sm outline-none focus:border-[color:var(--emerald-glow)] transition urdu-mini"
         />
         {searching && <Loader2 className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 animate-spin text-muted-foreground" />}
       </div>
