@@ -174,8 +174,8 @@ export function MoodGrid() {
                       >
                         <div className="mt-3 pt-3 border-t border-[color:var(--border)] space-y-1.5">
                           {m?.loading && (
-                            <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-                              <Loader2 className="w-3 h-3 animate-spin" /> Reading the verse…
+                            <p className="urdu-mini text-sm text-muted-foreground flex items-center gap-1.5" dir="rtl">
+                              <Loader2 className="w-3 h-3 animate-spin" /> شعر کو پڑھ رہے ہیں…
                             </p>
                           )}
                           {m?.error && <p className="text-xs text-destructive">{m.error}</p>}
