@@ -115,16 +115,16 @@ export function SmartKeyboard() {
   };
 
   return (
-    <div className="bento p-6 md:p-8">
-      <div className="flex items-start justify-between mb-5">
-        <div>
-          <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب چہارم</p>
-          <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">دیوانِ ڈیجیٹل</h2>
-          <p className="urdu-tight text-sm text-muted-foreground mt-1" dir="rtl">
-            اے آئی آپ کی ہر سطر فوراً خالص اردو میں ڈھال دیتا ہے۔
-          </p>
+    <div className="bento p-6 md:p-8 px-7 md:px-10">
+      <div className="section-head mb-5">
+        <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب چہارم</p>
+        <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">دیوانِ ڈیجیٹل</h2>
+        <p className="urdu-tight text-sm text-muted-foreground mt-1" dir="rtl">
+          اے آئی آپ کی ہر سطر فوراً خالص اردو میں ڈھال دیتا ہے۔
+        </p>
+        <div className="mt-2 flex justify-center">
+          <Smartphone className="w-5 h-5 text-[color:var(--emerald-glow)]" />
         </div>
-        <Smartphone className="w-5 h-5 text-[color:var(--emerald-glow)]" />
       </div>
 
       {/* Mode toggle */}

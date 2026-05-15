@@ -96,6 +96,11 @@
  .urdu, .nastaliq { font-family: var(--font-urdu); direction: rtl; line-height: 2.4; text-align: right; padding-bottom: 0.25em; word-spacing: 0.08em; }
  .urdu-tight { font-family: var(--font-urdu); direction: rtl; line-height: 2; text-align: right; padding-bottom: 0.15em; }
  .urdu-mini { font-family: var(--font-urdu); direction: rtl; line-height: 1.85; text-align: right; padding-bottom: 0.1em; }
+ /* Center override — applies inside flex/buttons & section header blocks */
+ .urdu-center, .urdu-center * { text-align: center !important; }
+ .section-head { text-align: center; }
+ .section-head .urdu, .section-head .urdu-tight, .section-head .urdu-mini, .section-head .nastaliq { text-align: center; }
+ button .urdu, button .urdu-tight, button .urdu-mini, button .nastaliq { text-align: center; }
   .display { font-family: var(--font-display); letter-spacing: -0.02em; }
 }
 

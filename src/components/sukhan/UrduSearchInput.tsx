@@ -41,8 +41,12 @@ export const UrduSearchInput = forwardRef<HTMLInputElement, Props>(function Urdu
           }
         }}
         placeholder={placeholder}
-        dir={urduMode ? "rtl" : undefined}
-        style={urduMode ? { fontFamily: "'Noto Nastaliq Urdu', serif", lineHeight: 2 } : undefined}
+        dir="rtl"
+        style={
+          urduMode
+            ? { fontFamily: "'Noto Nastaliq Urdu', serif", lineHeight: 2, textAlign: "right" }
+            : { textAlign: "right" }
+        }
         className={className}
       />
 

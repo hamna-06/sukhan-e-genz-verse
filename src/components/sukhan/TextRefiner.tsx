@@ -64,16 +64,16 @@ export function TextRefiner() {
   };
 
   return (
-    <div className="bento p-6 md:p-8 relative grain overflow-hidden">
-      <div className="flex items-start justify-between mb-4">
-        <div>
-          <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب اول</p>
-          <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">تحریرِ جمال</h2>
-          <p className="urdu-tight text-sm text-muted-foreground mt-1" dir="rtl">
-            کوئی بھی تحریر، خالص اردو کے دلکش انداز میں۔
-          </p>
+    <div className="bento p-6 md:p-8 px-7 md:px-10 relative grain overflow-hidden">
+      <div className="section-head mb-5">
+        <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب اول</p>
+        <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">تحریرِ جمال</h2>
+        <p className="urdu-tight text-sm text-muted-foreground mt-1" dir="rtl">
+          کوئی بھی تحریر، خالص اردو کے دلکش انداز میں۔
+        </p>
+        <div className="mt-2 flex justify-center">
+          <Wand2 className="w-5 h-5 text-[color:var(--emerald-glow)]" />
         </div>
-        <Wand2 className="w-5 h-5 text-[color:var(--emerald-glow)]" />
       </div>
 
       {/* Mode toggle */}
