@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Loader2, Sparkles, X } from "lucide-react";
+import { UrduSearchInput } from "./UrduSearchInput";
 import { supabase } from "@/integrations/supabase/client";
 
 const MOODS = [
@@ -99,14 +100,15 @@ export function MoodGrid() {
       <p className="urdu-tight text-sm text-muted-foreground mt-1 mb-4" dir="rtl">کوئی موڈ چنیں، تلاش کریں، یا کسی شعر کو چھو کر اس کا مفہوم دیکھیں۔</p>
 
       <div className="relative mb-4">
-        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-        <input
+        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10" />
+        <UrduSearchInput
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={setQuery}
           placeholder="تلاش: محبت، تنہائی، غالب، دل…"
-          className="w-full pl-9 pr-9 py-2.5 rounded-xl bg-[color:var(--secondary)]/40 border border-[color:var(--border)] text-sm outline-none focus:border-[color:var(--emerald-glow)] transition urdu-mini"
+          className="w-full pl-9 pr-16 py-2.5 rounded-xl bg-[color:var(--secondary)]/40 border border-[color:var(--border)] text-sm outline-none focus:border-[color:var(--emerald-glow)] transition urdu-mini"
+          toggleOffset="right-9"
         />
-        {searching && <Loader2 className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 animate-spin text-muted-foreground" />}
+        {searching && <Loader2 className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 animate-spin text-muted-foreground" />}
       </div>
 
       <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
