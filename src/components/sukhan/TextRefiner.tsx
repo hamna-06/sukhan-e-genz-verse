@@ -4,6 +4,7 @@ import { toPng } from "html-to-image";
 import { Wand2, Download, Share2, Loader2, Sparkles, ArrowRight } from "lucide-react";
 import { loadRefinements, refineText } from "@/lib/refine";
 import { toast } from "sonner";
+import { useUrduPhonetic, UrduToggleButton, UrduActivePill } from "./UrduPhonetic";
 
 export function TextRefiner() {
   const [input, setInput] = useState(
@@ -14,6 +15,7 @@ export function TextRefiner() {
   const [dict, setDict] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const urdu = useUrduPhonetic();
 
   useEffect(() => {
     loadRefinements().then(setDict).catch(() => {});
@@ -98,13 +100,21 @@ export function TextRefiner() {
         </button>
       </div>
 
-      <textarea
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        rows={3}
-        className="w-full bg-[color:var(--input)] rounded-xl p-4 text-sm outline-none focus:ring-2 focus:ring-[color:var(--ring)] resize-none"
-        placeholder="کچھ بھی لکھیے — رومن اردو، انگلش یا مخلوط…"
-      />
+      <div className="relative">
+        <textarea
+          value={input}
+          onChange={(e) => setInput(urdu.transform(e.target.value))}
+          rows={3}
+          dir={urdu.inputDir}
+          style={urdu.inputStyle}
+          className="w-full bg-[color:var(--input)] rounded-xl p-4 pr-12 text-sm outline-none focus:ring-2 focus:ring-[color:var(--ring)] resize-none"
+          placeholder="کچھ بھی لکھیے — رومن اردو، انگلش یا مخلوط…"
+        />
+        <div className="absolute top-2 right-2 flex items-center gap-2">
+          <UrduActivePill active={urdu.urduMode} />
+          <UrduToggleButton active={urdu.urduMode} onToggle={() => urdu.setUrduMode(!urdu.urduMode)} />
+        </div>
+      </div>
 
       <div className="flex gap-2 mt-3">
         <button

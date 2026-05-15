@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Feather, X, Loader2, Copy, Check, Send, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { useUrduPhonetic, UrduToggleButton, UrduActivePill } from "./UrduPhonetic";
 
 /**
  * Persistent floating "Khalis Urdu" mini-translator.
@@ -17,6 +18,7 @@ export function FloatingTranslator() {
   const [copied, setCopied] = useState(false);
   const debounce = useRef<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const urdu = useUrduPhonetic();
 
   // Real-time debounced translation
   useEffect(() => {
@@ -125,14 +127,22 @@ export function FloatingTranslator() {
             </div>
 
             <div className="p-4 space-y-3">
-              <textarea
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                rows={2}
-                autoFocus
-                placeholder="لکھیں… مثلاً tum bahut yaad aate ho"
-                className="w-full bg-[color:var(--input)] rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-[color:var(--ring)] resize-none"
-              />
+              <div className="relative">
+                <textarea
+                  value={text}
+                  onChange={(e) => setText(urdu.transform(e.target.value))}
+                  rows={2}
+                  autoFocus
+                  placeholder="لکھیں… مثلاً tum bahut yaad aate ho"
+                  dir={urdu.inputDir}
+                  style={urdu.inputStyle}
+                  className="w-full bg-[color:var(--input)] rounded-xl p-3 pr-12 text-sm outline-none focus:ring-2 focus:ring-[color:var(--ring)] resize-none"
+                />
+                <div className="absolute top-2 right-2 flex items-center gap-2">
+                  <UrduActivePill active={urdu.urduMode} />
+                  <UrduToggleButton active={urdu.urduMode} onToggle={() => urdu.setUrduMode(!urdu.urduMode)} />
+                </div>
+              </div>
 
               <div className="rounded-xl p-3 min-h-[72px] bg-[color:var(--emerald-deep)]/30 border border-[color:var(--emerald-glow)]/30 relative">
                 <p className="urdu-mini text-xs text-[color:var(--emerald-glow)] mb-1.5" dir="rtl">

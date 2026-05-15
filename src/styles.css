@@ -93,9 +93,9 @@
     font-family: var(--font-sans);
     min-height: 100vh;
   }
-  .urdu, .nastaliq { font-family: var(--font-urdu); direction: rtl; line-height: 2.2; text-align: right; }
-  .urdu-tight { font-family: var(--font-urdu); direction: rtl; line-height: 1.9; }
-  .urdu-mini { font-family: var(--font-urdu); direction: rtl; line-height: 1.7; }
+ .urdu, .nastaliq { font-family: var(--font-urdu); direction: rtl; line-height: 2.4; text-align: right; padding-bottom: 0.25em; word-spacing: 0.08em; }
+ .urdu-tight { font-family: var(--font-urdu); direction: rtl; line-height: 2; text-align: right; padding-bottom: 0.15em; }
+ .urdu-mini { font-family: var(--font-urdu); direction: rtl; line-height: 1.85; text-align: right; padding-bottom: 0.1em; }
   .display { font-family: var(--font-display); letter-spacing: -0.02em; }
 }
 

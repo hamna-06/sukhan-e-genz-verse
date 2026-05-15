@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Send, Smartphone, Sparkles, Loader2, Wand2 } from "lucide-react";
 import { loadRefinements, suggestWord } from "@/lib/refine";
 import { toast } from "sonner";
+import { useUrduPhonetic, UrduToggleButton, UrduActivePill } from "./UrduPhonetic";
 
 type Msg = { from: "me" | "them"; text: string; original?: string };
 
@@ -14,6 +15,7 @@ export function SmartKeyboard() {
   const [busy, setBusy] = useState(false);
   const debounce = useRef<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const urdu = useUrduPhonetic();
 
   const [msgs, setMsgs] = useState<Msg[]>([
     { from: "them", text: "آج کیا پلان ہے؟" },
@@ -228,24 +230,31 @@ export function SmartKeyboard() {
           )}
         </AnimatePresence>
 
-        <div className="flex items-center gap-2 mt-2 bg-[#202c33] rounded-full p-1.5">
-          <input
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder={
-              aiMode ? "کسی بھی زبان میں لکھیں…" : "رومن اردو میں لکھیں…"
-            }
-            className="flex-1 bg-transparent outline-none text-white text-sm px-3 urdu-mini"
-            dir="rtl"
-          />
-          <button
-            onClick={handleSend}
-            className="w-9 h-9 rounded-full bg-[#00a884] flex items-center justify-center"
-            aria-label="Send"
-          >
-            <Send className="w-4 h-4 text-white" />
-          </button>
+        <div className="relative">
+          <div className="absolute -top-2 right-12 z-10">
+            <UrduActivePill active={urdu.urduMode} />
+          </div>
+          <div className="flex items-center gap-2 mt-2 bg-[#202c33] rounded-full p-1.5">
+            <UrduToggleButton active={urdu.urduMode} onToggle={() => urdu.setUrduMode(!urdu.urduMode)} className="ml-1" />
+            <input
+              value={text}
+              onChange={(e) => setText(urdu.transform(e.target.value))}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              placeholder={
+                aiMode ? "کسی بھی زبان میں لکھیں…" : "رومن اردو میں لکھیں…"
+              }
+              className="flex-1 bg-transparent outline-none text-white text-sm px-3 urdu-mini"
+              dir={urdu.urduMode ? "rtl" : "rtl"}
+              style={urdu.urduMode ? { fontFamily: "'Noto Nastaliq Urdu', serif" } : undefined}
+            />
+            <button
+              onClick={handleSend}
+              className="w-9 h-9 rounded-full bg-[#00a884] flex items-center justify-center"
+              aria-label="Send"
+            >
+              <Send className="w-4 h-4 text-white" />
+            </button>
+          </div>
         </div>
       </div>
 
