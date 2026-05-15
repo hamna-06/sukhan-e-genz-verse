@@ -94,10 +94,12 @@ export function MoodGrid() {
   };
 
   return (
-    <div className="bento p-6 md:p-8">
-      <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب سوم</p>
-      <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">رنگِ شاعری</h2>
-      <p className="urdu-tight text-sm text-muted-foreground mt-1 mb-4" dir="rtl">کوئی موڈ چنیں، تلاش کریں، یا کسی شعر کو چھو کر اس کا مفہوم دیکھیں۔</p>
+    <div className="bento p-6 md:p-8 px-7 md:px-10">
+      <div className="section-head mb-4">
+        <p className="urdu-mini text-xs uppercase tracking-[0.2em] text-[color:var(--emerald-glow)]" dir="rtl">باب سوم</p>
+        <h2 className="nastaliq text-2xl md:text-3xl mt-1" dir="rtl">رنگِ شاعری</h2>
+        <p className="urdu-tight text-sm text-muted-foreground mt-1" dir="rtl">کوئی موڈ چنیں، تلاش کریں، یا کسی شعر کو چھو کر اس کا مفہوم دیکھیں۔</p>
+      </div>
 
       <div className="relative mb-4">
         <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10" />
