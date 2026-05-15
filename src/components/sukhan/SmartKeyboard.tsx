@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Send, Smartphone, Sparkles, Loader2, Wand2 } from "lucide-react";
 import { loadRefinements, suggestWord } from "@/lib/refine";
 import { toast } from "sonner";
+import { useUrduPhonetic, UrduToggleButton, UrduActivePill } from "./UrduPhonetic";
 
 type Msg = { from: "me" | "them"; text: string; original?: string };
 
