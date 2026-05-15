@@ -15,6 +15,7 @@ export function SmartKeyboard() {
   const [busy, setBusy] = useState(false);
   const debounce = useRef<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const urdu = useUrduPhonetic();
 
   const [msgs, setMsgs] = useState<Msg[]>([
     { from: "them", text: "آج کیا پلان ہے؟" },
