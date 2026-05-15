@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, Search, Loader2, Sparkles, Volume2, Copy, Check, Square } from "lucide-react";
+import { UrduSearchInput } from "./UrduSearchInput";
 import { toast } from "sonner";
 
 // Pick the best available voice for Urdu (fallback to Hindi → Arabic → default).
@@ -152,12 +153,14 @@ export function PoetryLibrary() {
         onSubmit={(e) => { e.preventDefault(); search(); }}
         className="relative mb-3"
       >
-        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-        <input
+        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10" />
+        <UrduSearchInput
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={setQuery}
           placeholder="مثلاً: محبت، چاند، اداس، جنون، عشق…"
-          className="w-full pl-9 pr-28 py-3 rounded-xl bg-[color:var(--secondary)]/40 border border-[color:var(--border)] text-sm outline-none focus:border-[color:var(--emerald-glow)] transition"
+          className="w-full pl-9 pr-36 py-3 rounded-xl bg-[color:var(--secondary)]/40 border border-[color:var(--border)] text-sm outline-none focus:border-[color:var(--emerald-glow)] transition"
+          toggleOffset="right-28"
+          onSubmit={() => search()}
         />
         <button
           type="submit"
