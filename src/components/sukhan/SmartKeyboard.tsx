@@ -97,7 +97,7 @@ export function SmartKeyboard() {
     setThinking(true);
 
     try {
-      const history = nextMsgs.map((m) => ({
+      const history = nextMsgs.slice(1).map((m) => ({
         role: m.from === "me" ? ("user" as const) : ("assistant" as const),
         content: m.from === "me" && m.original ? m.original : m.text,
       }));
