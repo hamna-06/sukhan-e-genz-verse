@@ -81,10 +81,15 @@ export function SmartKeyboard() {
 
   const sendKhalis = async (override?: string) => {
     const original = text;
-    const out = (override ?? (aiMode && aiSuggestion ? aiSuggestion : text)).trim();
-    if (!out) return;
+    const visibleText = (override ?? (aiMode && aiSuggestion ? aiSuggestion : text)).trim();
+    const chatText = original.trim() || visibleText;
+    if (!chatText) return;
 
-    const userMsg: Msg = { from: "me", text: out, original: original !== out ? original : undefined };
+    const userMsg: Msg = {
+      from: "me",
+      text: visibleText || chatText,
+      original: original.trim() && original.trim() !== visibleText ? original.trim() : undefined,
+    };
     const nextMsgs = [...msgs, userMsg];
     setMsgs(nextMsgs);
     setText("");
@@ -94,7 +99,7 @@ export function SmartKeyboard() {
     try {
       const history = nextMsgs.map((m) => ({
         role: m.from === "me" ? ("user" as const) : ("assistant" as const),
-        content: m.text,
+        content: m.from === "me" && m.original ? m.original : m.text,
       }));
       const res = await fetch("/api/chat", {
         method: "POST",
@@ -103,14 +108,29 @@ export function SmartKeyboard() {
       });
       const data = (await res.json()) as { reply?: string; error?: string };
       if (!res.ok || !data.reply) {
-        throw new Error(data.error || "AI error");
+        if (res.status === 429) throw new Error("rate_limit");
+        if (res.status === 402) throw new Error("credits");
+        throw new Error(data.error || "ai_error");
       }
       setMsgs((m) => [...m, { from: "them", text: data.reply! }]);
     } catch (err) {
-      toast.error("جواب حاصل کرنے میں مسئلہ ہوا");
+      const reason = err instanceof Error ? err.message : "ai_error";
+      toast.error(
+        reason === "rate_limit"
+          ? "درخواستیں بہت زیادہ ہو گئیں، ذرا وقفے کے بعد کوشش کریں"
+          : reason === "credits"
+            ? "اے آئی کریڈٹ ختم ہو گئے ہیں"
+            : "جواب حاصل کرنے میں مسئلہ ہوا",
+      );
       setMsgs((m) => [
         ...m,
-        { from: "them", text: "معذرت، ابھی جواب دینے سے قاصر ہوں۔ دوبارہ کوشش کیجیے۔" },
+        {
+          from: "them",
+          text:
+            reason === "rate_limit"
+              ? "اس وقت درخواستوں کی کثرت ہے؛ چند لمحوں بعد دوبارہ کوشش کیجیے۔"
+              : "معذرت، ابھی جواب نہیں مل سکا؛ دوبارہ کوشش کیجیے۔",
+        },
       ]);
     } finally {
       setThinking(false);
