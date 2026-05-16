@@ -18,8 +18,14 @@ export function SmartKeyboard() {
   const urdu = useUrduPhonetic();
 
   const [msgs, setMsgs] = useState<Msg[]>([
-    { from: "them", text: "آج کیا پلان ہے؟" },
+    { from: "them", text: "السلام علیکم! میں سخن ہوں۔ کسی بھی زبان میں بات کیجیے، میں خالص اردو میں جواب دوں گا۔" },
   ]);
+  const [thinking, setThinking] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [msgs, thinking]);
 
   useEffect(() => {
     loadRefinements().then(setDict);
