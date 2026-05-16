@@ -161,7 +161,7 @@ export function SmartKeyboard() {
       </div>
 
       <div className="rounded-3xl bg-[#0b141a] p-3 max-w-sm mx-auto border border-[color:var(--border)] shadow-2xl">
-        <div className="rounded-2xl bg-[#0b141a] h-72 overflow-y-auto p-3 space-y-2 flex flex-col">
+        <div ref={scrollRef} className="rounded-2xl bg-[#0b141a] h-72 overflow-y-auto p-3 space-y-2 flex flex-col">
           {msgs.map((m, i) => (
             <div
               key={i}
@@ -185,6 +185,16 @@ export function SmartKeyboard() {
               </div>
             </div>
           ))}
+          {thinking && (
+            <div className="flex justify-start">
+              <div className="bg-[#202c33] text-white rounded-2xl rounded-bl-sm px-3 py-2 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[color:var(--emerald-glow)] animate-bounce" style={{ animationDelay: "0ms" }} />
+                <span className="w-1.5 h-1.5 rounded-full bg-[color:var(--emerald-glow)] animate-bounce" style={{ animationDelay: "150ms" }} />
+                <span className="w-1.5 h-1.5 rounded-full bg-[color:var(--emerald-glow)] animate-bounce" style={{ animationDelay: "300ms" }} />
+                <span className="urdu-mini text-[11px] text-[color:var(--emerald-glow)] mr-1" dir="rtl">سخن لکھ رہا ہے…</span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* AI live preview bar */}
