@@ -39,7 +39,8 @@ export const Route = createFileRoute("/api/translate")({
                 },
                 { role: "user", content: text.trim() },
               ],
-              temperature: 0.4,
+              temperature: 0.25,
+              max_tokens: 90,
             }),
           });
 
