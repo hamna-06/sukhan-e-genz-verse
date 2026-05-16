@@ -269,10 +269,11 @@ export function SmartKeyboard() {
             />
             <button
               onClick={handleSend}
-              className="w-9 h-9 rounded-full bg-[#00a884] flex items-center justify-center"
+              disabled={thinking}
+              className="w-9 h-9 rounded-full bg-[#00a884] flex items-center justify-center disabled:opacity-50"
               aria-label="Send"
             >
-              <Send className="w-4 h-4 text-white" />
+              {thinking ? <Loader2 className="w-4 h-4 text-white animate-spin" /> : <Send className="w-4 h-4 text-white" />}
             </button>
           </div>
         </div>
