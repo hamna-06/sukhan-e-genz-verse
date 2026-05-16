@@ -79,39 +79,42 @@ export function SmartKeyboard() {
     setText(parts.join(" ") + " ");
   };
 
-  const sendKhalis = (override?: string) => {
+  const sendKhalis = async (override?: string) => {
     const original = text;
-    const out = override ?? aiSuggestion ?? text;
-    if (!out.trim()) return;
-    setMsgs((m) => [...m, { from: "me", text: out, original }]);
+    const out = (override ?? (aiMode && aiSuggestion ? aiSuggestion : text)).trim();
+    if (!out) return;
+
+    const userMsg: Msg = { from: "me", text: out, original: original !== out ? original : undefined };
+    const nextMsgs = [...msgs, userMsg];
+    setMsgs(nextMsgs);
     setText("");
     setAiSuggestion("");
+    setThinking(true);
 
-    setTimeout(async () => {
-      // AI partner replies in Khalis Urdu
-      try {
-        const res = await fetch("/api/translate", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            text: `Conversational reply in elegant Khalis Urdu (Nastaliq, 1 short natural sentence, warm tone, no English) to this message: "${out}"`,
-          }),
-        });
-        const data = (await res.json()) as { translation?: string };
-        setMsgs((m) => [
-          ...m,
-          {
-            from: "them",
-            text: data.translation || "واہ! خالص اردو میں بات ہو رہی ہے 🌿",
-          },
-        ]);
-      } catch {
-        setMsgs((m) => [
-          ...m,
-          { from: "them", text: "واہ! خالص اردو میں بات ہو رہی ہے 🌿" },
-        ]);
+    try {
+      const history = nextMsgs.map((m) => ({
+        role: m.from === "me" ? ("user" as const) : ("assistant" as const),
+        content: m.text,
+      }));
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ messages: history }),
+      });
+      const data = (await res.json()) as { reply?: string; error?: string };
+      if (!res.ok || !data.reply) {
+        throw new Error(data.error || "AI error");
       }
-    }, 500);
+      setMsgs((m) => [...m, { from: "them", text: data.reply! }]);
+    } catch (err) {
+      toast.error("جواب حاصل کرنے میں مسئلہ ہوا");
+      setMsgs((m) => [
+        ...m,
+        { from: "them", text: "معذرت، ابھی جواب دینے سے قاصر ہوں۔ دوبارہ کوشش کیجیے۔" },
+      ]);
+    } finally {
+      setThinking(false);
+    }
   };
 
   const handleSend = () => {
