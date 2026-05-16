@@ -118,9 +118,10 @@ export function SmartKeyboard() {
   };
 
   const handleSend = () => {
+    if (thinking) return;
     if (aiMode && aiSuggestion) sendKhalis();
     else if (text.trim()) sendKhalis(text);
-    else toast.error("Type something first");
+    else toast.error("کچھ لکھیے");
   };
 
   return (
