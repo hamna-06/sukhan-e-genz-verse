@@ -18,8 +18,14 @@ export function SmartKeyboard() {
   const urdu = useUrduPhonetic();
 
   const [msgs, setMsgs] = useState<Msg[]>([
-    { from: "them", text: "آج کیا پلان ہے؟" },
+    { from: "them", text: "السلام علیکم! میں سخن ہوں۔ کسی بھی زبان میں بات کیجیے، میں خالص اردو میں جواب دوں گا۔" },
   ]);
+  const [thinking, setThinking] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [msgs, thinking]);
 
   useEffect(() => {
     loadRefinements().then(setDict);
@@ -73,45 +79,49 @@ export function SmartKeyboard() {
     setText(parts.join(" ") + " ");
   };
 
-  const sendKhalis = (override?: string) => {
+  const sendKhalis = async (override?: string) => {
     const original = text;
-    const out = override ?? aiSuggestion ?? text;
-    if (!out.trim()) return;
-    setMsgs((m) => [...m, { from: "me", text: out, original }]);
+    const out = (override ?? (aiMode && aiSuggestion ? aiSuggestion : text)).trim();
+    if (!out) return;
+
+    const userMsg: Msg = { from: "me", text: out, original: original !== out ? original : undefined };
+    const nextMsgs = [...msgs, userMsg];
+    setMsgs(nextMsgs);
     setText("");
     setAiSuggestion("");
+    setThinking(true);
 
-    setTimeout(async () => {
-      // AI partner replies in Khalis Urdu
-      try {
-        const res = await fetch("/api/translate", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            text: `Conversational reply in elegant Khalis Urdu (Nastaliq, 1 short natural sentence, warm tone, no English) to this message: "${out}"`,
-          }),
-        });
-        const data = (await res.json()) as { translation?: string };
-        setMsgs((m) => [
-          ...m,
-          {
-            from: "them",
-            text: data.translation || "واہ! خالص اردو میں بات ہو رہی ہے 🌿",
-          },
-        ]);
-      } catch {
-        setMsgs((m) => [
-          ...m,
-          { from: "them", text: "واہ! خالص اردو میں بات ہو رہی ہے 🌿" },
-        ]);
+    try {
+      const history = nextMsgs.map((m) => ({
+        role: m.from === "me" ? ("user" as const) : ("assistant" as const),
+        content: m.text,
+      }));
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ messages: history }),
+      });
+      const data = (await res.json()) as { reply?: string; error?: string };
+      if (!res.ok || !data.reply) {
+        throw new Error(data.error || "AI error");
       }
-    }, 500);
+      setMsgs((m) => [...m, { from: "them", text: data.reply! }]);
+    } catch (err) {
+      toast.error("جواب حاصل کرنے میں مسئلہ ہوا");
+      setMsgs((m) => [
+        ...m,
+        { from: "them", text: "معذرت، ابھی جواب دینے سے قاصر ہوں۔ دوبارہ کوشش کیجیے۔" },
+      ]);
+    } finally {
+      setThinking(false);
+    }
   };
 
   const handleSend = () => {
+    if (thinking) return;
     if (aiMode && aiSuggestion) sendKhalis();
     else if (text.trim()) sendKhalis(text);
-    else toast.error("Type something first");
+    else toast.error("کچھ لکھیے");
   };
 
   return (
@@ -152,7 +162,7 @@ export function SmartKeyboard() {
       </div>
 
       <div className="rounded-3xl bg-[#0b141a] p-3 max-w-sm mx-auto border border-[color:var(--border)] shadow-2xl">
-        <div className="rounded-2xl bg-[#0b141a] h-72 overflow-y-auto p-3 space-y-2 flex flex-col">
+        <div ref={scrollRef} className="rounded-2xl bg-[#0b141a] h-72 overflow-y-auto p-3 space-y-2 flex flex-col">
           {msgs.map((m, i) => (
             <div
               key={i}
@@ -176,6 +186,16 @@ export function SmartKeyboard() {
               </div>
             </div>
           ))}
+          {thinking && (
+            <div className="flex justify-start">
+              <div className="bg-[#202c33] text-white rounded-2xl rounded-bl-sm px-3 py-2 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[color:var(--emerald-glow)] animate-bounce" style={{ animationDelay: "0ms" }} />
+                <span className="w-1.5 h-1.5 rounded-full bg-[color:var(--emerald-glow)] animate-bounce" style={{ animationDelay: "150ms" }} />
+                <span className="w-1.5 h-1.5 rounded-full bg-[color:var(--emerald-glow)] animate-bounce" style={{ animationDelay: "300ms" }} />
+                <span className="urdu-mini text-[11px] text-[color:var(--emerald-glow)] mr-1" dir="rtl">سخن لکھ رہا ہے…</span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* AI live preview bar */}
@@ -249,10 +269,11 @@ export function SmartKeyboard() {
             />
             <button
               onClick={handleSend}
-              className="w-9 h-9 rounded-full bg-[#00a884] flex items-center justify-center"
+              disabled={thinking}
+              className="w-9 h-9 rounded-full bg-[#00a884] flex items-center justify-center disabled:opacity-50"
               aria-label="Send"
             >
-              <Send className="w-4 h-4 text-white" />
+              {thinking ? <Loader2 className="w-4 h-4 text-white animate-spin" /> : <Send className="w-4 h-4 text-white" />}
             </button>
           </div>
         </div>

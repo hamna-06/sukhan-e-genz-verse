@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiTranslateRouteImport } from './routes/api/translate'
 import { Route as ApiSynonymsRouteImport } from './routes/api/synonyms'
 import { Route as ApiMeaningRouteImport } from './routes/api/meaning'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,15 +35,22 @@ const ApiMeaningRoute = ApiMeaningRouteImport.update({
   path: '/api/meaning',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/meaning': typeof ApiMeaningRoute
   '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/meaning': typeof ApiMeaningRoute
   '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
@@ -50,20 +58,33 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/meaning': typeof ApiMeaningRoute
   '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/meaning' | '/api/synonyms' | '/api/translate'
+  fullPaths:
+    | '/'
+    | '/api/chat'
+    | '/api/meaning'
+    | '/api/synonyms'
+    | '/api/translate'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/meaning' | '/api/synonyms' | '/api/translate'
-  id: '__root__' | '/' | '/api/meaning' | '/api/synonyms' | '/api/translate'
+  to: '/' | '/api/chat' | '/api/meaning' | '/api/synonyms' | '/api/translate'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/chat'
+    | '/api/meaning'
+    | '/api/synonyms'
+    | '/api/translate'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiChatRoute: typeof ApiChatRoute
   ApiMeaningRoute: typeof ApiMeaningRoute
   ApiSynonymsRoute: typeof ApiSynonymsRoute
   ApiTranslateRoute: typeof ApiTranslateRoute
@@ -99,11 +120,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiMeaningRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiChatRoute: ApiChatRoute,
   ApiMeaningRoute: ApiMeaningRoute,
   ApiSynonymsRoute: ApiSynonymsRoute,
   ApiTranslateRoute: ApiTranslateRoute,
@@ -111,13 +140,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
