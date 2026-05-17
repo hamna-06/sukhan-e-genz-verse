@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Trophy, Award, Share2, Flame } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { UrduQuiz } from "./UrduQuiz";
 
 const BADGES = [
   { id: "aghaz", label: "آغازِ سفر", min: 0, emoji: "🌱" },
