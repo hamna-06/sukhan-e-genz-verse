@@ -5,6 +5,7 @@ import { TextRefiner } from "@/components/sukhan/TextRefiner";
 import { PoetryLibrary } from "@/components/sukhan/PoetryLibrary";
 import { MoodGrid } from "@/components/sukhan/MoodGrid";
 import { SmartKeyboard } from "@/components/sukhan/SmartKeyboard";
+import { KafiyaFinder } from "@/components/sukhan/KafiyaFinder";
 import { Gamification } from "@/components/sukhan/Gamification";
 
 export const Route = createFileRoute("/")({
@@ -51,8 +52,9 @@ function Index() {
             <TextRefiner />
             <div className="grid md:grid-cols-2 gap-5">
               <PoetryLibrary />
-              <MoodGrid />
+              <KafiyaFinder />
             </div>
+            <MoodGrid />
             <SmartKeyboard />
           </div>
           <aside>
