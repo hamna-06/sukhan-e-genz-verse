@@ -141,6 +141,9 @@ export function Gamification() {
           </div>
         </div>
       )}
+
+      {/* Quiz — appears under قولِ روز, beside رنگِ شاعری */}
+      <UrduQuiz />
     </div>
   );
 }
