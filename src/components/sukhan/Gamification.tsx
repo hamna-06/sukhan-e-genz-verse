@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Trophy, Award, Share2, Flame } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { UrduQuiz } from "./UrduQuiz";
 
 const BADGES = [
   { id: "aghaz", label: "آغازِ سفر", min: 0, emoji: "🌱" },
@@ -21,44 +20,11 @@ export function Gamification() {
   const [wow, setWow] = useState<{ word: string; meaning: string; example: string | null } | null>(null);
 
   useEffect(() => {
-    // Local fallback pool — guarantees a fresh قولِ روز every refresh
-    const localQuotes: { quote: string; poet: string }[] = [
-      { quote: "ہزاروں خواہشیں ایسی کہ ہر خواہش پہ دم نکلے", poet: "مرزا غالب" },
-      { quote: "اور بھی دکھ ہیں زمانے میں محبت کے سوا", poet: "فیض احمد فیض" },
-      { quote: "خودی کو کر بلند اتنا کہ ہر تقدیر سے پہلے", poet: "علامہ اقبال" },
-      { quote: "رنجش ہی سہی دل ہی دکھانے کے لیے آ", poet: "احمد فراز" },
-      { quote: "پتا پتا بوٹا بوٹا حال ہمارا جانے ہے", poet: "میر تقی میر" },
-      { quote: "محبت میں نہیں ہے فرق جینے اور مرنے کا", poet: "مرزا غالب" },
-      { quote: "وہ آئے گھر میں ہمارے خدا کی قدرت ہے", poet: "مرزا غالب" },
-      { quote: "بات نکلے گی تو پھر دور تلک جائے گی", poet: "کفیل آزر" },
-      { quote: "کبھی کبھی میرے دل میں خیال آتا ہے", poet: "ساحر لدھیانوی" },
-      { quote: "زندگی سے بڑی سزا ہی نہیں", poet: "کرشن بہاری نور" },
-    ];
-    const localWords: { word: string; meaning: string; example: string | null }[] = [
-      { word: "سخن", meaning: "کلام، شعر، بات", example: "سخن وہ ہے جو دل کو چھو جائے۔" },
-      { word: "خودی", meaning: "اپنی پہچان اور خود اعتمادی", example: "خودی کو پہچان لو تو دنیا تمہاری ہے۔" },
-      { word: "سکوت", meaning: "خاموشی", example: "سکوتِ شب میں ایک گیت سنائی دیا۔" },
-      { word: "نکہت", meaning: "خوشبو", example: "گلاب کی نکہت سے کمرہ مہک اٹھا۔" },
-      { word: "قرار", meaning: "اطمینان، سکون", example: "تیرے آنے سے دل کو قرار آیا۔" },
-      { word: "ہجر", meaning: "جدائی، فراق", example: "ہجر کی راتیں طویل ہوتی ہیں۔" },
-      { word: "وصال", meaning: "ملاقات، اتحاد", example: "وصال کی گھڑیاں مختصر تھیں۔" },
-      { word: "تجلی", meaning: "روشنی، جلوہ", example: "اس کے چہرے پر ایک تجلی تھی۔" },
-      { word: "تمنا", meaning: "خواہش، آرزو", example: "ہر تمنا ادھوری رہ گئی۔" },
-      { word: "حسرت", meaning: "ارمان، افسوس", example: "حسرتوں کا ایک جہاں آباد ہے۔" },
-    ];
-
-    // Rotate daily + a refresh nudge so each open feels fresh
-    const day = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
-    const nonce = Math.floor(Math.random() * localQuotes.length);
-    setQuote(localQuotes[(day + nonce) % localQuotes.length]);
-    setWow(localWords[(day + nonce) % localWords.length]);
-
-    // Try enriching from backend if available; otherwise local stays
-    supabase.from("daily_quotes").select("quote, poet").limit(20).then(({ data }) => {
+    supabase.from("daily_quotes").select("quote, poet").limit(10).then(({ data }) => {
       if (data?.length) setQuote(data[Math.floor(Math.random() * data.length)] as any);
     });
-    supabase.from("word_of_week").select("word, meaning, example").order("week_start", { ascending: false }).limit(10).then(({ data }) => {
-      if (data?.length) setWow(data[Math.floor(Math.random() * data.length)] as any);
+    supabase.from("word_of_week").select("word, meaning, example").order("week_start", { ascending: false }).limit(1).maybeSingle().then(({ data }) => {
+      if (data) setWow(data as any);
     });
   }, []);
 
@@ -141,9 +107,6 @@ export function Gamification() {
           </div>
         </div>
       )}
-
-      {/* Quiz — appears under قولِ روز, beside رنگِ شاعری */}
-      <UrduQuiz />
     </div>
   );
 }
