@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiTranslateRouteImport } from './routes/api/translate'
 import { Route as ApiSynonymsRouteImport } from './routes/api/synonyms'
 import { Route as ApiMeaningRouteImport } from './routes/api/meaning'
+import { Route as ApiKafiyaRouteImport } from './routes/api/kafiya'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const ApiMeaningRoute = ApiMeaningRouteImport.update({
   path: '/api/meaning',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiKafiyaRoute = ApiKafiyaRouteImport.update({
+  id: '/api/kafiya',
+  path: '/api/kafiya',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -44,6 +50,7 @@ const ApiChatRoute = ApiChatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/kafiya': typeof ApiKafiyaRoute
   '/api/meaning': typeof ApiMeaningRoute
   '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/kafiya': typeof ApiKafiyaRoute
   '/api/meaning': typeof ApiMeaningRoute
   '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
@@ -59,6 +67,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/kafiya': typeof ApiKafiyaRoute
   '/api/meaning': typeof ApiMeaningRoute
   '/api/synonyms': typeof ApiSynonymsRoute
   '/api/translate': typeof ApiTranslateRoute
@@ -68,15 +77,23 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/api/chat'
+    | '/api/kafiya'
     | '/api/meaning'
     | '/api/synonyms'
     | '/api/translate'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/chat' | '/api/meaning' | '/api/synonyms' | '/api/translate'
+  to:
+    | '/'
+    | '/api/chat'
+    | '/api/kafiya'
+    | '/api/meaning'
+    | '/api/synonyms'
+    | '/api/translate'
   id:
     | '__root__'
     | '/'
     | '/api/chat'
+    | '/api/kafiya'
     | '/api/meaning'
     | '/api/synonyms'
     | '/api/translate'
@@ -85,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiKafiyaRoute: typeof ApiKafiyaRoute
   ApiMeaningRoute: typeof ApiMeaningRoute
   ApiSynonymsRoute: typeof ApiSynonymsRoute
   ApiTranslateRoute: typeof ApiTranslateRoute
@@ -120,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiMeaningRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/kafiya': {
+      id: '/api/kafiya'
+      path: '/api/kafiya'
+      fullPath: '/api/kafiya'
+      preLoaderRoute: typeof ApiKafiyaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -133,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiKafiyaRoute: ApiKafiyaRoute,
   ApiMeaningRoute: ApiMeaningRoute,
   ApiSynonymsRoute: ApiSynonymsRoute,
   ApiTranslateRoute: ApiTranslateRoute,
