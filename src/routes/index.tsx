@@ -29,17 +29,18 @@ function Index() {
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="bento p-8 md:p-14 relative overflow-hidden grain"
+            className="bento p-8 md:p-14 relative overflow-hidden grain text-right"
+            dir="rtl"
           >
-            <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full" style={{ background: "var(--emerald-glow)", opacity: 0.18, filter: "blur(60px)" }} />
+            <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full" style={{ background: "var(--emerald-glow)", opacity: 0.18, filter: "blur(60px)" }} />
             <p className="urdu-mini text-xs uppercase tracking-[0.3em] text-[color:var(--emerald-glow)]" dir="rtl">سخنِ ز · سنہ ۲۰۲۶</p>
-            <h1 className="nastaliq text-5xl md:text-7xl mt-4 leading-[1.4]" dir="rtl">
-              پرانی تہذیب،<br />نیا رنگ
+            <h1 className="nastaliq text-5xl md:text-7xl mt-4 leading-[1.4] whitespace-nowrap" dir="rtl">
+              پرانی تہذیب، نیا رنگ
             </h1>
-            <p className="urdu text-2xl md:text-3xl mt-6 max-w-2xl text-[color:var(--cream)]/90">
+            <p className="urdu text-2xl md:text-3xl mt-6 max-w-2xl text-[color:var(--cream)]/90 ml-auto" dir="rtl">
               زبانِ شیریں کا ایک نیا انداز
             </p>
-            <p className="urdu-tight text-base md:text-lg text-muted-foreground mt-4 max-w-xl" dir="rtl">
+            <p className="urdu-tight text-base md:text-lg text-muted-foreground mt-4 max-w-xl ml-auto" dir="rtl">
               اپنی تحریر سنواریں، کلاسیک کو سمجھیں، اپنے موڈ کے مطابق اشعار پائیں، اور شاعری کو روزمرہ کا معمول بنائیں۔
             </p>
           </motion.div>
