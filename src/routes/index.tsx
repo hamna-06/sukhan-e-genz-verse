@@ -34,7 +34,7 @@ function Index() {
           >
             <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full" style={{ background: "var(--emerald-glow)", opacity: 0.18, filter: "blur(60px)" }} />
             <p className="urdu-mini text-xs uppercase tracking-[0.3em] text-[color:var(--emerald-glow)]" dir="rtl">سخنِ ز · سنہ ۲۰۲۶</p>
-            <h1 className="nastaliq text-5xl md:text-7xl mt-4 leading-[1.4] whitespace-nowrap" dir="rtl">
+            <h1 className="nastaliq text-5xl md:text-7xl mt-4 leading-[1.4] whitespace-nowrap pr-8 md:pr-20" dir="rtl">
               پرانی تہذیب، نیا رنگ
             </h1>
             <p className="urdu text-2xl md:text-3xl mt-6 max-w-2xl text-[color:var(--cream)]/90 ml-auto" dir="rtl">
