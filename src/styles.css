@@ -4,9 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Jameel Noori Nastaleeq alternative via Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Gulzar&family=Inter:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,400;0,600;1,500&display=swap');
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
